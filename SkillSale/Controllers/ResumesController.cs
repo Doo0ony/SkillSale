@@ -22,11 +22,14 @@ namespace SkillSale.Controllers
         // GET: Resumes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Resumes.ToListAsync());
+           
+            return View( await _context.Resumes
+                .Include(x => x.Author)
+                .ToListAsync());
         }
 
-        // GET: Resumes/Details/5
-        [Authorize]
+		// GET: Resumes/Details/5
+		[Authorize]
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -62,7 +65,7 @@ namespace SkillSale.Controllers
             {
                 resume.Id = Guid.NewGuid();
                 resume.Author = await (_userManager.GetUserAsync(User));
-                resume.AuthorId = Guid.Parse(resume.Author.Id);
+                resume.AuthorId = resume.Author.Id;
 
                 _context.Add(resume);
                 await _context.SaveChangesAsync();

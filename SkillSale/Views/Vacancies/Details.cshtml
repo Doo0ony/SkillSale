@@ -4,57 +4,110 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="hero-wrap hero-wrap-2" style="background-image: url('../../wwwroot/images/bg_1.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-start">
+            <div class="col-md-12 ftco-animate text-center mb-5">
+                <p class="breadcrumbs mb-0"><span class="mr-3"><a asp-action="Home" asp-area="Index">Главная <i class="ion-ios-arrow-forward"></i></a></span> <span>Job Post</span></p>
+                <h1 class="mb-3 bread">Детали вакансии</h1>
+            </div>
+        </div>
+    </div>
+</div>
 
-<div>
-    <h4>Vacancy</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Salary)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Salary)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Experience)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Experience)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.WorkStatus)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.WorkStatus)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsAvaliable)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsAvaliable)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<section class="ftco-section bg-light">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-12 col-lg-8 mb-5">
+
+                <div class="p-5 bg-white">                   
+
+                    <div class="row form-group">
+                        <div class="col-md-12 mb-3 mb-md-0">
+                            <label class="font-weight-bold">Должность</label>
+                            <h5 class="" >@Html.DisplayFor(itemModel => itemModel.Title)</h5>
+                        </div>
+                    </div>
+
+                    <div class="row form-group mb-2">
+                        <div class="col-md-12 mb-3 mb-md-0">
+                            <label class="font-weight-bold" for="fullname">Компания</label>
+                            <h5 type="text" class="" >@Html.DisplayFor(itemModel => itemModel.CompanyName)</h5>
+                        </div>
+                    </div>
+
+
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <label class="font-weight-bold" for="fullname">Вид занятости</label>                         
+                        </div>
+                        <div class="col-md-12 mb-3 mb-md-0">
+                            <h5>@Html.DisplayFor(itemModel => itemModel.WorkStatus)</h5>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <label class="font-weight-bold" for="fullname">Описание должности</label>
+                        </div>
+                        <div class="col-md-12 mb-3 mb-md-0">
+                            <h5 >@Html.DisplayFor(itemModel => itemModel.Description)</h5>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-md-12 mb-3 mb-md-0">
+                            <div class="btn btn-primary">❤ В избранное </div>                       
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="p-4 mb-3 bg-white">
+                    <h3 class="h5 text-black mb-3">Контактная информация</h3>
+                    <p class="mb-0 font-weight-bold">Адрес</p>
+                    <p class="mb-4">@Model.Address</p>
+
+                    <p class="mb-0 font-weight-bold">Телефон</p>
+                    <p class="mb-4">+996555845345</p>
+
+                    <p class="mb-0 font-weight-bold">Электронный адрес</p>
+                    <p class="mb-0"><a href="#"><span class="__cf_email__">myCompany@gmail.com</span></a></p>
+
+                </div>
+
+                <div class="p-4 mb-3 bg-white">
+                    <h3 class="h5 text-black mb-3">Дополнительно</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa ad iure porro mollitia architecto hic consequuntur. Distinctio nisi perferendis dolore, ipsa consectetur</p>
+                    <p><a href="#" class="btn btn-primary  py-2 px-4">Ещё</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section-parallax">
+    <div class="parallax-img d-flex align-items-center">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
+                    <h2>Subcribe to our Newsletter</h2>
+                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in</p>
+                    <div class="row d-flex justify-content-center mt-4 mb-4">
+                        <div class="col-md-12">
+                            <form action="#" class="subscribe-form">
+                                <div class="form-group d-flex">
+                                    <input type="text" class="form-control" placeholder="Enter email address">
+                                    <input type="submit" value="Subscribe" class="submit px-3">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

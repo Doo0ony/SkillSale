@@ -1,4 +1,6 @@
-﻿@model SkillSale.Models.Vacancy
+﻿@using SkillSale.Enums
+@using SkillSale.Extensions
+@model SkillSale.Models.Vacancy
 
 @{
     ViewData["Title"] = "Create";
@@ -13,9 +15,14 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CompanyName" class="control-label"></label>
+                <input asp-for="CompanyName" class="form-control" />
+                <span asp-validation-for="CompanyName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Salary" class="control-label"></label>
@@ -24,12 +31,22 @@
             </div>
             <div class="form-group">
                 <label asp-for="Experience" class="control-label"></label>
-                <input asp-for="Experience" class="form-control" />
+                <select asp-for ="Experience" class="form-control">
+                    @foreach (var value in Enum.GetValues(typeof(WorkExperience)))
+                    {
+                        <option value="@value">@(((WorkExperience)value).GetDisplayName())</option>
+                    }
+                </select>
                 <span asp-validation-for="Experience" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="WorkStatus" class="control-label"></label>
-                <select asp-for="WorkStatus" class="form-control"></select>
+                <select asp-for="WorkStatus" class="form-control">
+                    @foreach (var value in Enum.GetValues(typeof(WorkStatus)))
+                    {
+                        <option value="@value">@(((WorkStatus)value).GetDisplayName())</option>
+                    }
+                </select>
                 <span asp-validation-for="WorkStatus" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -57,6 +74,134 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+
+
+
+<div class="hero-wrap hero-wrap-2" style="background-image: url('../../wwwroot/images/bg_1.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-start">
+            <div class="col-md-12 ftco-animate text-center mb-5">
+                <p class="breadcrumbs mb-0"><span class="mr-3"><a asp-action="Home" asp-area="Index">Главная <i class="ion-ios-arrow-forward"></i></a></span> <span>Job Post</span></p>
+                <h1 class="mb-3 bread">Детали вакансии</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="ftco-section bg-light">
+    <div class="container">
+        <div class="row">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="col-md-12 col-lg-8 mb-5">
+
+                <div class="p-5 bg-white">
+                     
+                    <div class="row form-group">
+                        <div class="col-md-12 mb-3 mb-md-0">
+                                <div class="form-group">
+                                    <label asp-for="Title" class="control-label"></label>
+                                    <input asp-for="Title" class="form-control" />
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row form-group mb-2">
+                        <div class="col-md-12 mb-3 mb-md-0">
+                            <label class="font-weight-bold" for="fullname">Компания</label>
+                        </div>
+                    </div>
+
+
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <label class="font-weight-bold" for="fullname">Вид занятости</label>
+                        </div>
+                        <div class="col-md-12 mb-3 mb-md-0">
+                            <h5></h5>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <label class="font-weight-bold" for="fullname">Описание должности</label>
+                        </div>
+                        <div class="col-md-12 mb-3 mb-md-0">
+                            <h5></h5>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-md-12 mb-3 mb-md-0">
+                            <div class="btn btn-primary">❤ В избранное </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="p-4 mb-3 bg-white">
+                    <h3 class="h5 text-black mb-3">Контактная информация</h3>
+                    <p class="mb-0 font-weight-bold">Адрес</p>
+                    <p class="mb-4"></p>
+
+                    <p class="mb-0 font-weight-bold">Телефон</p>
+                    <p class="mb-4">+996555845345</p>
+
+                    <p class="mb-0 font-weight-bold">Электронный адрес</p>
+                    <p class="mb-0"><a href="#"><span class="__cf_email__">myCompany@gmail.com</span></a></p>
+
+                </div>
+
+                <div class="p-4 mb-3 bg-white">
+                    <h3 class="h5 text-black mb-3">Дополнительно</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa ad iure porro mollitia architecto hic consequuntur. Distinctio nisi perferendis dolore, ipsa consectetur</p>
+                    <p><a href="#" class="btn btn-primary  py-2 px-4">Ещё</a></p>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section-parallax">
+    <div class="parallax-img d-flex align-items-center">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
+                    <h2>Subcribe to our Newsletter</h2>
+                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in</p>
+                    <div class="row d-flex justify-content-center mt-4 mb-4">
+                        <div class="col-md-12">
+                            <form action="#" class="subscribe-form">
+                                <div class="form-group d-flex">
+                                    <input type="text" class="form-control" placeholder="Enter email address">
+                                    <input type="submit" value="Subscribe" class="submit px-3">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

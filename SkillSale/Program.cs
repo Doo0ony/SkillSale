@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using SkillSale.Areas.Identity.Data;
 using SkillSale.Data;
 namespace SkillSale
@@ -20,6 +21,7 @@ namespace SkillSale
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -30,6 +32,7 @@ namespace SkillSale
                 app.UseHsts();
             }
 
+             
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

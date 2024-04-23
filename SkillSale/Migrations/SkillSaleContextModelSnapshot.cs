@@ -212,6 +212,9 @@ namespace SkillSale.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<Guid?>("ResumeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -222,6 +225,9 @@ namespace SkillSale.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<Guid?>("VacancyId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -231,6 +237,10 @@ namespace SkillSale.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("ResumeId");
+
+                    b.HasIndex("VacancyId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -245,8 +255,9 @@ namespace SkillSale.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("AuthorId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("AuthorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("DesiredPosition")
                         .IsRequired()
@@ -255,18 +266,21 @@ namespace SkillSale.Migrations
                     b.Property<int>("EducationLevel")
                         .HasColumnType("int");
 
-                    b.Property<int>("Salary")
+                    b.Property<int>("Location")
                         .HasColumnType("int");
 
-                    b.Property<string>("SkillSaleUserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Salary")
+                        .HasColumnType("int");
 
                     b.Property<int>("WorkExperience")
                         .HasColumnType("int");
 
+                    b.Property<int>("WorkStatus")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("SkillSaleUserId");
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("Resumes");
                 });
@@ -281,7 +295,19 @@ namespace SkillSale.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("AuthorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CompanyName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -291,22 +317,23 @@ namespace SkillSale.Migrations
                     b.Property<bool>("IsAvaliable")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Salary")
                         .HasColumnType("int");
 
-                    b.Property<string>("SkillSaleUserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("WorkStatus")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SkillSaleUserId");
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("Vacancies");
                 });
@@ -362,18 +389,37 @@ namespace SkillSale.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SkillSale.Areas.Identity.Data.SkillSaleUser", b =>
+                {
+                    b.HasOne("SkillSale.Models.Resume", null)
+                        .WithMany("EmployerCandidates")
+                        .HasForeignKey("ResumeId");
+
+                    b.HasOne("SkillSale.Models.Vacancy", null)
+                        .WithMany("CandidatesList")
+                        .HasForeignKey("VacancyId");
+                });
+
             modelBuilder.Entity("SkillSale.Models.Resume", b =>
                 {
-                    b.HasOne("SkillSale.Areas.Identity.Data.SkillSaleUser", null)
+                    b.HasOne("SkillSale.Areas.Identity.Data.SkillSaleUser", "Author")
                         .WithMany("Resumes")
-                        .HasForeignKey("SkillSaleUserId");
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("SkillSale.Models.Vacancy", b =>
                 {
-                    b.HasOne("SkillSale.Areas.Identity.Data.SkillSaleUser", null)
+                    b.HasOne("SkillSale.Areas.Identity.Data.SkillSaleUser", "Author")
                         .WithMany("Vacancies")
-                        .HasForeignKey("SkillSaleUserId");
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("SkillSale.Areas.Identity.Data.SkillSaleUser", b =>
@@ -381,6 +427,16 @@ namespace SkillSale.Migrations
                     b.Navigation("Resumes");
 
                     b.Navigation("Vacancies");
+                });
+
+            modelBuilder.Entity("SkillSale.Models.Resume", b =>
+                {
+                    b.Navigation("EmployerCandidates");
+                });
+
+            modelBuilder.Entity("SkillSale.Models.Vacancy", b =>
+                {
+                    b.Navigation("CandidatesList");
                 });
 #pragma warning restore 612, 618
         }

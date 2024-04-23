@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SkillSale.Areas.Identity.Data;
 using SkillSale.Data;
 using SkillSale.Models;
 
@@ -13,16 +15,18 @@ namespace SkillSale.Controllers
     public class VacanciesController : Controller
     {
         private readonly SkillSaleContext _context;
+        private readonly UserManager<SkillSaleUser> _userManager;
 
-        public VacanciesController(SkillSaleContext context)
+        public VacanciesController(SkillSaleContext context, UserManager<SkillSaleUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Vacancies
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Vacancies.ToListAsync());
+            return View(await _context.Vacancies.Include(x => x.Author).ToListAsync());
         }
 
         // GET: Vacancies/Details/5
@@ -54,11 +58,15 @@ namespace SkillSale.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Salary,Experience,WorkStatus,Address,Description,IsAvaliable")] Vacancy vacancy)
+        public async Task<IActionResult> Create([Bind("Id,Title,CompanyName,Salary,WorkExperience,WorkStatus,Address,Description,IsAvaliable")] Vacancy vacancy)
         {
             if (ModelState.IsValid)
             {
                 vacancy.Id = Guid.NewGuid();
+
+                vacancy.Author = await (_userManager.GetUserAsync(User));
+                vacancy.AuthorId = vacancy.Author.Id;
+
                 _context.Add(vacancy);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -87,7 +95,7 @@ namespace SkillSale.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Name,Salary,Experience,WorkStatus,Address,Description,IsAvaliable")] Vacancy vacancy)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Title,CompanyName,Salary,WorkExperience,WorkStatus,Address,Description,IsAvaliable")] Vacancy vacancy)
         {
             if (id != vacancy.Id)
             {

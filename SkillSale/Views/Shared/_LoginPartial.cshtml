@@ -4,25 +4,34 @@
 @inject SignInManager<SkillSaleUser> SignInManager
 @inject UserManager<SkillSaleUser> UserManager
 
-<ul class="navbar-nav">
+<ul class="navbar-nav" style="place-items:center; flex-direction:row;">
 @if (SignInManager.IsSignedIn(User))
 {
-    <li class="nav-item">
-        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Привет @UserManager.GetUserName(User)!</a>
+    <li class="nav-item cta mr-md-1 mr-2">
+        <form class="form-inline btn btn-primary p-0" >
+                <button id="manage" class="nav-link" style="cursor: pointer; border:none; background:transparent;" asp-area="Identity" asp-page="/Account/Manage/Index" id="manage" title="Manage">
+                    <img style="width:25px; height:25px; margin-right:6px; margin-left:4px;" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png " />
+                <span class="mr-2">Профиль</span>
+            </button>
+        </form>
     </li>
-    <li class="nav-item">
-        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Выход</button>
+
+    <li class="nav-item cta cta-colored">
+        <form id="logoutForm" class="form-inline btn btn-primary p-0"  asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button id="logout" type="submit" class="nav-link" style="cursor: pointer; border:none; background:transparent;">
+                <img style="width:25px; height:25px; margin-right:6px; margin-left:4px;" src="https://cdn-icons-png.flaticon.com/512/5123/5123927.png "/>
+                <span class="mr-2">Выход</span>
+            </button>
         </form>
     </li>
 }
 else
 {
-    <li class="nav-item">
-        <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Регистрация</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Войти</a>
+    <li class="nav-item cta">
+        <a class="nav-link" id="login" asp-area="Identity" asp-page="/Account/Login">
+                <img style="width:25px; height:25px; margin-right:6px; margin-left:4px;" src="https://cdn-icons-png.flaticon.com/512/15227/15227361.png " />
+            <span>Войти</span>
+        </a>
     </li>
 }
 </ul>

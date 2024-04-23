@@ -13,14 +13,20 @@ namespace SkillSale.Models
         [Required]
         public int Salary { get; set;}
         [Required]
+        public Location Location { get; set; }
+        [Required]
+        public WorkStatus WorkStatus { get; set; }
+        [Required]
         public EducationLevel EducationLevel { get; set; }
         [Required]
         public WorkExperience WorkExperience { get; set; }
         [Required]
         public string AboutMe { get; set; } = String.Empty;
 
-        public Guid AuthorId { get; set; }
-        public SkillSaleUser? Author;
-        public List<SkillSaleUser>? EmployerCandidates;
+        // Внешний ключ на автора резюме
+        public string? AuthorId { get; set; }
+        public SkillSaleUser? Author { get; set; }
+
+        public List<SkillSaleUser>? EmployerCandidates { get; set; }
     }
 }
