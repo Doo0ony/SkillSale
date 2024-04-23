@@ -11,7 +11,7 @@ namespace SkillSale.Models
         [Required]
         public string DesiredPosition { get; set; } = String.Empty;
         [Required]
-        public int Salary { get; set;}
+        public int Salary { get; set; }
         [Required]
         public Location Location { get; set; }
         [Required]
@@ -20,6 +20,11 @@ namespace SkillSale.Models
         public EducationLevel EducationLevel { get; set; }
         [Required]
         public WorkExperience WorkExperience { get; set; }
+        [Required]
+        public string? Phone { get; set; }
+        [Required]
+        [EmailAddress]
+        public string? Email { get; set; }
         [Required]
         public string AboutMe { get; set; } = String.Empty;
 

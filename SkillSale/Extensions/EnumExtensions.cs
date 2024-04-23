@@ -12,5 +12,7 @@ namespace SkillSale.Extensions
 
             return displayAttribute?.Name ?? value.ToString();
         }
+
+
     }
 }

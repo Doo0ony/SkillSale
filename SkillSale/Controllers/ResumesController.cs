@@ -38,6 +38,7 @@ namespace SkillSale.Controllers
             }
 
             var resume = await _context.Resumes
+                .Include(x => x.Author)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (resume == null)
             {
@@ -59,7 +60,7 @@ namespace SkillSale.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,DesiredPosition,Salary,EducationLevel,WorkExperience,AboutMe")] Resume resume)
+        public async Task<IActionResult> Create([Bind("Id,DesiredPosition,Salary,EducationLevel,WorkExperience,AboutMe, Phone, Email, Location")] Resume resume)
         {
             if (ModelState.IsValid)
             {

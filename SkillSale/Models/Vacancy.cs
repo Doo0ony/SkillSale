@@ -31,6 +31,9 @@ namespace SkillSale.Models
         public string Address { get; set; } = string.Empty;
 
         [Required]
+        public Location Location { get; set; }
+
+        [Required]
         public string Description { get; set; } = string.Empty;
 
         [Required]

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SkillSale.Data;
 
@@ -11,9 +12,11 @@ using SkillSale.Data;
 namespace SkillSale.Migrations
 {
     [DbContext(typeof(SkillSaleContext))]
-    partial class SkillSaleContextModelSnapshot : ModelSnapshot
+    [Migration("20240423085712_UpdateVacancyTableLocationField")]
+    partial class UpdateVacancyTableLocationField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -266,16 +269,8 @@ namespace SkillSale.Migrations
                     b.Property<int>("EducationLevel")
                         .HasColumnType("int");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Location")
                         .HasColumnType("int");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Salary")
                         .HasColumnType("int");

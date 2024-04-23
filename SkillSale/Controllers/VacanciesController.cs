@@ -58,7 +58,7 @@ namespace SkillSale.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,CompanyName,Salary,WorkExperience,WorkStatus,Address,Description,IsAvaliable")] Vacancy vacancy)
+        public async Task<IActionResult> Create([Bind("Id,Title,CompanyName,Salary,WorkExperience,WorkStatus,Address,Description,IsAvaliable,Location, Phone, Email")] Vacancy vacancy)
         {
             if (ModelState.IsValid)
             {
