@@ -4,6 +4,14 @@
     ViewData["Title"] = "Вакансии";
 }
 
+<head>
+    <meta charset="utf-8"></meta>
+    <script src="~/js/jquery.min.js"></script>
+
+    <script src="~/js/ajax/favoritebutton.js"></script>
+    <script src="~/js/ajax/CandidateVacancy.js" charset="utf-8"></script>
+
+</head>
 
 <div class="hero-wrap hero-wrap-2" style="background-image: url('images/bg_1.jpg');" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
@@ -24,9 +32,11 @@
                 <div class="row">
                     @foreach (var item in Model)
 					{
-                       
                         <div class="col-md-12 ftco-animate">
-                            <div class="job-post-item p-4 d-block d-lg-flex align-items-center">
+                            <div class="job-post-item p-4 d-block d-lg-flex align-items-center position-relative">
+                                <button id ="favoriteButton" data-value="@item.Id" class="favorite-button position-absolute top-0 end-0 mt-2 mr-2 btn btn-outline-warning">
+                                    <i class="bi bi-heart"> </i>
+                                </button>
                                 <div class="one-third mb-4 mb-md-0">
                                     <div class="job-post-item-header align-items-center">
                                         <span class="subadge">@Html.DisplayFor(itemModel => item.WorkStatus)</span>
@@ -39,17 +49,13 @@
                                         <div class="mr-3"><span class="icon-my_location"></span> @Html.DisplayFor(itemModel => item.Address)</div>
                                     </div>
                                 </div>
-
-                                <div class="one-forth ml-auto d-flex align-items-center mt-4 md-md-0">
-                                    <div>
-                                        <a href="#" class="icon text-center d-flex justify-content-center align-items-center icon mr-2">
-                                            <span class="icon-heart"></span>
-                                        </a>
-                                    </div>
-                                    <a class="btn btn-primary py-2">Подать заявку</a>
+                                
+                                <div class="one-forth d-flex">
+                                    <button id="CandidateVacancy" data-value="@item.Id" class="btn btn-primary p-2 px-3">Подать заявку</button>
                                 </div>
                             </div>
                         </div>
+
                         
                     }
                     <!-- end -->

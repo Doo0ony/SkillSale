@@ -1,0 +1,103 @@
+﻿@model List<Vacancy>
+@using SkillSale.Extensions
+
+@{
+    ViewData["Title"] = "Понравившиеся";
+}
+
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SkillSale.styles.css" asp-append-version="true" />
+    <link href="~/css/profileStyles.css" rel="stylesheet"></link>
+
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/ajax/favoritebutton.js"></script>
+</head>
+
+<div class="container-fluid">
+    <div class="row ass">
+        <div class="col-md-3 menu-container">
+            <ul class="nav nav-tabs flex-column menuStyle" id="myTab" role="tablist">
+                <li class="nav-item mb-1">
+                    <a class="" asp-action="Index">
+                        <button class="btn btn-sm btn-outline-dark btn-block " > <i class="bi bi-arrow-left-circle-fill iconStyle"><span class="ml-1">Профиль</span></i></button>
+                    </a>
+                </li>
+                <li class="nav-item mb-1" >
+                    <a class="active">
+                        <button class="btn btn-sm btn-outline-dark btn-block"><i class="bi bi-file-earmark-plus-fill iconStyle"><span class="ml-1">Вакансия</span> </i></button>
+                    </a>
+                </li>
+                <li class="nav-item mb-1 ">
+                    <a class="" asp-action="FavoriteResumes">
+                        <button class="btn btn-sm btn-outline-dark btn-block"><i class="bi bi-briefcase-fill iconStyle"><span class="ml-1">Резюме</span></i></button>                  
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="create" role="tabpanel" aria-labelledby="create-tab">
+                    <div>
+                        <h2>Ваши вакансии</h2>
+                        <p>Здесь вакансии, на которые вы поставили лайк <i class="bi bi-heart-fill" style="color:red"></i></p>
+                        <div>
+                            @if (Model.Any())
+                            {                  
+                                @foreach (var item in Model)
+                                {
+                                    <div class="nested-block shadow mb-4 bg-body-tertiary rounded">
+                                            <div class="one-third mb-4 mb-md-0">
+                                                <div class="job-post-item-header align-items-center">
+                                                    <span class="subadge text-primary text-uppercase">@Html.DisplayFor(itemModel => item.WorkStatus)</span>
+                                                    <h2 class="mr-3 text-black">@Html.DisplayFor(itemModel => item.Title)</h2>
+                                                    <h5 class="mr-3 text-black">От @Html.DisplayFor(itemModel => item.Salary) сом в месяц</h5>
+                                                </div>
+                                                <div class="job-post-item-body d-block d-md-flex">
+                                                    <div class="mr-3"><span class="icon-layers"></span> @Html.DisplayFor(itemModel => item.CompanyName)</div>
+                                                    <div class="mr-3"><span class="icon-location_city"></span> @Html.DisplayFor(itemModel => item.Location)</div>
+                                                    <div class="mr-3"><span class="icon-my_location"></span> @Html.DisplayFor(itemModel => item.Address)</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="one-forth text-white">
+                                                <a asp-controller="Vacancies" asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info py-2 my-2 text-white"><i class="bi bi-info-circle-fill"></i> Подробнее</a>
+                                                <a class="btn btn-sm btn-primary py-2 my-2"><i class="bi bi-plus-circle"></i> Подать заявку</a>
+
+                                                <a id="favoriteButton" data-value="@item.Id"  class="btn btn-sm btn-danger py-2 my-2"><i class="bi bi-trash-fill"></i> Удалить</a>
+                                            </div>
+                                            
+                                    </div>       
+                                  
+                                } 
+                            }
+                            else
+                            {
+                                <p>Нет ни одной вакансии.</p>
+                            }
+                                
+                         </div>
+                    </div>
+                </div>                         
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Получаем все кнопки "favoriteButton"
+        var favoriteButtons = document.querySelectorAll("#favoriteButton");
+
+        // Для каждой кнопки добавляем обработчик события
+        favoriteButtons.forEach(function (button) {
+            button.addEventListener("click", function () {
+                // Находим родительский элемент кнопки (весь блок)
+                var blockToHide = button.closest(".nested-block");
+                // Применяем стиль CSS для скрытия блока
+                blockToHide.style.display = "none";
+            });
+        });
+    });
+</script>

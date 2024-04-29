@@ -5,19 +5,22 @@
     ViewData["Title"] = "Вход";
     Layout = null;
 }
-<!DOCTYPE html>
-<html lang="en">
+
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вход в аккаунт</title>
+    <title>@ViewData["Title"]</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="~/css/loginStyles.css" rel="stylesheet">
+    <link href="~/lib/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
  
 </head>
 <body>
     <div class="container d-flex justify-content-center align-items-center h-100">
-        <div class="login-form">
+        <div class="login-form position-relative">
+            @* <button type="button" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button> *@
             <img src="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-solid.svg" alt="Bootstrap logo" class="mb-4 mx-auto d-block" width="72" height="72">
             <h1 class="h3 mb-3 font-weight-normal text-center">Вход в аккаунт</h1>
             <form class="form-signin" id="account" method="post">
@@ -29,7 +32,14 @@
                 </div>
                 <div class="form-group">
                     <label for="inputPassword">Пароль</label>
-                    <input asp-for="Input.Password" type="password" id="inputPassword" class="form-control" autocomplete="current-password" aria-required="true"  placeholder="Пароль" required>
+                    <div class="input-group">
+                        <input asp-for="Input.Password" type="password" id="inputPassword" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Пароль" required>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary toggle-password" type="button" data-target="#inputPassword">
+                                <i class="bi bi-eye-slash" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
                     <span asp-validation-for="Input.Password" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -50,7 +60,10 @@
         </div>
     </div>
 </body>
-</html>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/js/passwordshoweye.js"></script>">
 
 
 @section Scripts {

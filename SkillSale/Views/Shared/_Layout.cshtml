@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    @* <meta name="viewport" content="width=device-width, initial-scale=1.0" /> *@
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
     <title>@ViewData["Title"] - SkillSale</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -30,6 +30,8 @@
     <link rel="stylesheet" href="~/css/flaticon.css">
     <link rel="stylesheet" href="~/css/icomoon.css">
     <link rel="stylesheet" href="~/css/style.css">
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 </head>
 
 <body>
@@ -55,70 +57,70 @@
             </div>
         </nav>
     </header> 
-	
-            @RenderBody()
-   @*  <div>
-         <main role="main" class="pb-3">
-        </main>
-    </div> *@
 
-	<footer class="ftco-footer ftco-bg-dark ftco-section">
-		<div class="container">
-			<div class="row mb-5">
-				
-				<div class="col-md">
-					<div class="ftco-footer-widget mb-4">
-						<h2 class="ftco-heading-2">Сотрудники</h2>
-						<ul class="list-unstyled">
-							<li><a asp-controller="" asp-action="" class="pb-1 d-block">Сотрудники</a></li>
-							<li><a asp-controller="" asp-action="" class="pb-1 d-block">Работодатели</a></li>
-							<li><a asp-controller="Resumes" asp-action="Create" class="pb-1 d-block">Создать резюме</a></li>
-							<li><a asp-controller="Vacancies" asp-action="Create" class="pb-1 d-block">Создать вакансию</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-md">
-					<div class="ftco-footer-widget mb-4 ml-md-4">
-						<h2 class="ftco-heading-2">Кандидаты</h2>
-						<ul class="list-unstyled">
-							<li><a asp-controller="Vacancies" asp-action="Index" class="pb-1 d-block">Вакансии</a></li>
-							<li><a asp-controller="Resumes" asp-action="Index" class="pb-1 d-block">Резюме</a></li>
-							<li><a asp-controller="" asp-action="" class="pb-1 d-block">Понравившиеся</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-md">
-					<div class="ftco-footer-widget mb-4 ml-md-4">
-						<h2 class="ftco-heading-2">Аккаунт</h2>
-						<ul class="list-unstyled">
-							<li><a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" id="manage" class="pb-1 d-block">Профиль</a></li>
-							<li><a asp-area="Identity" asp-page="/Account/Login" class="pb-1 d-block">Войти</a></li>
-							<li><a asp-area="Identity" asp-page="/Account/Register" class="pb-1 d-block">Регистрация</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-md">
-					<div class="ftco-footer-widget mb-4">
-						<h2 class="ftco-heading-2">Есть вопросы?</h2>
-						<div class="block-23 mb-3">
-							<ul>
-								<li><span class="icon icon-map-marker"></span><span class="text">г. Бишкек, Проспект Чуй, 255а</span></li>
-								<li><span class="icon icon-phone"></span><span class="text">+996 555 845 345</span></li>
-                                <li><span class="icon icon-envelope"></span><span class="text">B. Danil</span></li>
+            @RenderBody()
+
+
+	@if (ViewBag.Footer != false)
+	{
+		<footer class="ftco-footer ftco-bg-dark ftco-section">
+			<div class="container">
+				<div class="row mb-5">
+
+					<div class="col-md">
+						<div class="ftco-footer-widget mb-4">
+							<h2 class="ftco-heading-2">Сотрудники</h2>
+							<ul class="list-unstyled">
+								<li><a asp-controller="" asp-action="" class="pb-1 d-block">Сотрудники</a></li>
+								<li><a asp-controller="" asp-action="" class="pb-1 d-block">Работодатели</a></li>
+								<li><a asp-controller="Resumes" asp-action="Create" class="pb-1 d-block">Создать резюме</a></li>
+								<li><a asp-controller="Vacancies" asp-action="Create" class="pb-1 d-block">Создать вакансию</a></li>
 							</ul>
 						</div>
 					</div>
+					<div class="col-md">
+						<div class="ftco-footer-widget mb-4 ml-md-4">
+							<h2 class="ftco-heading-2">Кандидаты</h2>
+							<ul class="list-unstyled">
+								<li><a asp-controller="Vacancies" asp-action="Index" class="pb-1 d-block">Вакансии</a></li>
+								<li><a asp-controller="Resumes" asp-action="Index" class="pb-1 d-block">Резюме</a></li>
+								<li><a asp-controller="" asp-action="" class="pb-1 d-block">Понравившиеся</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md">
+						<div class="ftco-footer-widget mb-4 ml-md-4">
+							<h2 class="ftco-heading-2">Аккаунт</h2>
+							<ul class="list-unstyled">
+								<li><a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" id="manage" class="pb-1 d-block">Профиль</a></li>
+								<li><a asp-area="Identity" asp-page="/Account/Login" class="pb-1 d-block">Войти</a></li>
+								<li><a asp-area="Identity" asp-page="/Account/Register" class="pb-1 d-block">Регистрация</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md">
+						<div class="ftco-footer-widget mb-4">
+							<h2 class="ftco-heading-2">Есть вопросы?</h2>
+							<div class="block-23 mb-3">
+								<ul>
+									<li><span class="icon icon-map-marker"></span><span class="text">г. Бишкек, Проспект Чуй, 255а</span></li>
+									<li><span class="icon icon-phone"></span><span class="text">+996 555 845 345</span></li>
+									<li><span class="icon icon-envelope"></span><span class="text">B. Danil</span></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<p>
+							This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://vk.com/donyk" target="_blank">Danil</a>
+						</p>
+					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-12 text-center">
-					<p>
-						This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://vk.com/donyk" target="_blank">Danil</a>
-					</p>
-				</div>
-			</div>
-		</div>
-	</footer>
+		</footer>
+	}
 
 	<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" /><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" /></svg></div>
 
@@ -134,13 +136,13 @@
 	<script src="~/js/aos.js"></script>
 	<script src="~/js/jquery.animateNumber.min.js"></script>
 	<script src="~/js/scrollax.min.js"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-	<script src="~/js/google-map.js"></script>
+
 	<script src="~/js/main.js"></script>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -29,7 +29,7 @@ namespace SkillSale.Controllers
         }
 
 		// GET: Resumes/Details/5
-		[Authorize]
+	
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -60,7 +60,8 @@ namespace SkillSale.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,DesiredPosition,Salary,EducationLevel,WorkExperience,AboutMe, Phone, Email, Location")] Resume resume)
+        [Authorize]
+        public async Task<IActionResult> Create([Bind("Id,DesiredPosition,Salary,EducationLevel,WorkExperience,AboutMe,WorkStatus, Phone, Email, Location")] Resume resume)
         {
             if (ModelState.IsValid)
             {
@@ -76,6 +77,7 @@ namespace SkillSale.Controllers
         }
 
         // GET: Resumes/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -96,12 +98,16 @@ namespace SkillSale.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,DesiredPosition,Salary,EducationLevel,WorkExperience,AboutMe")] Resume resume)
+        [Authorize]
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,DesiredPosition,Salary,EducationLevel,WorkExperience,AboutMe,WorkStatus, Phone, Email, Location")] Resume resume)
         {
             if (id != resume.Id)
             {
                 return NotFound();
             }
+
+            resume.Author = await (_userManager.GetUserAsync(User));
+            resume.AuthorId = resume.Author.Id;
 
             if (ModelState.IsValid)
             {
@@ -127,6 +133,7 @@ namespace SkillSale.Controllers
         }
 
         // GET: Resumes/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -147,6 +154,7 @@ namespace SkillSale.Controllers
         // POST: Resumes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var resume = await _context.Resumes.FindAsync(id);
@@ -156,12 +164,59 @@ namespace SkillSale.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), "Profile");
         }
 
         private bool ResumeExists(Guid id)
         {
             return _context.Resumes.Any(e => e.Id == id);
         }
+
+        [HttpPost]
+        public async Task AddToFavoriteList(string value)
+        {
+            Guid resumeId = Guid.Parse(value);
+
+            var resume = await _context.Resumes.FirstOrDefaultAsync(x => x.Id == resumeId);
+
+            if (resume == null)
+                return;
+
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if (currentUser == null)
+                return;
+
+            await _context.Entry(currentUser)
+                .Collection(u => u.FavoriteResumes)
+                .LoadAsync();
+
+            try
+            {
+                var likedResume = currentUser.FavoriteResumes.FirstOrDefault(x => x.ResumeId == resume.Id);
+
+                if (likedResume != null)
+                {
+                    currentUser.FavoriteResumes.Remove(likedResume);
+                    await _context.SaveChangesAsync();
+
+                }
+                else
+                {
+                    currentUser.FavoriteResumes.Add(new FavoriteResumes
+                    {
+                        AuthorId = Guid.Parse(currentUser.Id),
+                        ResumeId = resume.Id
+                    });
+                    await _context.SaveChangesAsync();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                await Console.Out.WriteLineAsync(ex.Message);
+            }
+        }
+
     }
 }

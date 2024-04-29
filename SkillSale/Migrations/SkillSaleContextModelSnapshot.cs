@@ -167,12 +167,15 @@ namespace SkillSale.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("Age")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("Age")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -243,6 +246,54 @@ namespace SkillSale.Migrations
                     b.HasIndex("VacancyId");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("SkillSale.Models.FavoriteResumes", b =>
+                {
+                    b.Property<Guid>("FavoriteResumeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AuthorId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<Guid>("ResumeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("FavoriteResumeId");
+
+                    b.HasIndex("AuthorId1");
+
+                    b.HasIndex("ResumeId");
+
+                    b.ToTable("FavoriteResumes");
+                });
+
+            modelBuilder.Entity("SkillSale.Models.FavoriteVacancies", b =>
+                {
+                    b.Property<Guid>("FavoriteVacancyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AuthorId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<Guid>("VacancyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("FavoriteVacancyId");
+
+                    b.HasIndex("AuthorId1");
+
+                    b.HasIndex("VacancyId");
+
+                    b.ToTable("FavoriteVacancies");
                 });
 
             modelBuilder.Entity("SkillSale.Models.Resume", b =>
@@ -411,6 +462,40 @@ namespace SkillSale.Migrations
                         .HasForeignKey("VacancyId");
                 });
 
+            modelBuilder.Entity("SkillSale.Models.FavoriteResumes", b =>
+                {
+                    b.HasOne("SkillSale.Areas.Identity.Data.SkillSaleUser", "Author")
+                        .WithMany("FavoriteResumes")
+                        .HasForeignKey("AuthorId1");
+
+                    b.HasOne("SkillSale.Models.Resume", "Resume")
+                        .WithMany()
+                        .HasForeignKey("ResumeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Resume");
+                });
+
+            modelBuilder.Entity("SkillSale.Models.FavoriteVacancies", b =>
+                {
+                    b.HasOne("SkillSale.Areas.Identity.Data.SkillSaleUser", "Author")
+                        .WithMany("FavoriteVacancies")
+                        .HasForeignKey("AuthorId1");
+
+                    b.HasOne("SkillSale.Models.Vacancy", "Vacancy")
+                        .WithMany()
+                        .HasForeignKey("VacancyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Vacancy");
+                });
+
             modelBuilder.Entity("SkillSale.Models.Resume", b =>
                 {
                     b.HasOne("SkillSale.Areas.Identity.Data.SkillSaleUser", "Author")
@@ -435,6 +520,10 @@ namespace SkillSale.Migrations
 
             modelBuilder.Entity("SkillSale.Areas.Identity.Data.SkillSaleUser", b =>
                 {
+                    b.Navigation("FavoriteResumes");
+
+                    b.Navigation("FavoriteVacancies");
+
                     b.Navigation("Resumes");
 
                     b.Navigation("Vacancies");

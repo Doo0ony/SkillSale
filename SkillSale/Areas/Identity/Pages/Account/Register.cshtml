@@ -1,66 +1,86 @@
 ﻿@page
 @model RegisterModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Регистрация";
     Layout = null;
 }
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрация</title>
+
+    <title>@ViewData["Title"]</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="~/css/registerStyles.css" rel="stylesheet"></link>
+    <link href="~/lib/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
 </head>
 
-<body>
-    <div class="container d-flex justify-content-center align-items-center h-100">
-        <div class="register-form">
-            <img src="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-solid.svg" alt="Bootstrap logo" class="mb-4 mx-auto d-block" width="72" height="72">
-            <h1 class="h3 mb-3 font-weight-normal text-center">Регистрация</h1>
-            <form class="form-signin" id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="inputFirstName">Имя</label>
-                        <input type="text" asp-for="Input.FirstName" id="inputFirstName" autocomplete="new-password" aria-required="true" class="form-control" placeholder="Имя" required autofocus>
-                        <span asp-validation-for="Input.FirstName" class="text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="inputLastName">Фамилия</label>
-                        <input asp-for="Input.LastName" type="text" id="inputLastName" autocomplete="new-password" aria-required="true" class="form-control" placeholder="Фамилия" required>
-                        <span asp-validation-for="Input.LastName" class="text-danger"></span>
-                    </div>
+<div class="container d-flex justify-content-center align-items-center h-100">
+    <div class="register-form">
+        <img src="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-solid.svg" alt="Bootstrap logo" class="mb-4 mx-auto d-block" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal text-center">Регистрация</h1>
+        <form class="form-signin" id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputFirstName">Имя</label>
+                    <input type="text" asp-for="Input.FirstName" id="inputFirstName" autocomplete="new-password" aria-required="true" class="form-control" placeholder="Имя" required autofocus>
+                    <span asp-validation-for="Input.FirstName" class="text-danger"></span>
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="inputEmail">Email</label>
-                        <input type="email" asp-for="Input.Email" id="inputEmail" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" required>
-                        <span asp-validation-for="Input.Email" class="text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="inputAge">Возраст</label>
-                        <input asp-for="Input.Age" type="number" autocomplete="new-password" aria-required="true" id="inputAge" class="form-control" placeholder="Возраст" required>
-                        <span asp-validation-for="Input.Age" class="text-danger"></span>
-                    </div>
+                <div class="form-group col-md-6">
+                    <label for="inputLastName">Фамилия</label>
+                    <input asp-for="Input.LastName" type="text" id="inputLastName" autocomplete="new-password" aria-required="true" class="form-control" placeholder="Фамилия" required>
+                    <span asp-validation-for="Input.LastName" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label for="inputPassword">Пароль</label>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputEmail">Email</label>
+                    <input type="email" asp-for="Input.Email" id="inputEmail" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" required>
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputAge">Возраст</label>
+                    <input asp-for="Input.Age" type="date" autocomplete="new-password" aria-required="true" id="inputAge" class="form-control" placeholder="Возраст" required>
+                    <span asp-validation-for="Input.Age" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword">Пароль</label>
+                <div class="input-group">
                     <input asp-for="Input.Password" type="password" id="inputPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Пароль" required>
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary toggle-password" type="button" data-target="#inputPassword">
+                            <i class="bi bi-eye-slash" aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="inputConfirmPassword">Подтвердите пароль</label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="inputConfirmPassword">Подтвердите пароль</label>
+                <div class="input-group">
                     <input asp-for="Input.ConfirmPassword" type="password" id="inputConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Подтвердите пароль" required>
-                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary toggle-password" type="button" data-target="#inputConfirmPassword">
+                            <i class="bi bi-eye-slash" aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </div>
-                <button id="registerSubmit" class="btn btn-lg btn-primary btn-block" type="submit">Зарегистрироваться</button>
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+
+
+            <button id="registerSubmit" class="btn btn-lg btn-primary btn-block" type="submit">Зарегистрироваться</button>
                 
-            </form>
-        </div>
+        </form>
     </div>
-</body>
-</html>
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/js/passwordshoweye.js"></script>">
 
 
 @section Scripts {

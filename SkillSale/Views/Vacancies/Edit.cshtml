@@ -1,64 +1,192 @@
-﻿@model SkillSale.Models.Vacancy
+﻿@using SkillSale.Enums
+@using SkillSale.Extensions
+@model SkillSale.Models.Vacancy
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Редактирование";
 }
 
-<h1>Edit</h1>
-
-<h4>Vacancy</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+<div class="hero-wrap hero-wrap-2" style="background-image: url('../../wwwroot/images/bg_1.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-start">
+            <div class="col-md-12 ftco-animate text-center mb-5">
+                <p class="breadcrumbs mb-0"><span class="mr-3">Главная <i class="ion-ios-arrow-forward"></i></span> <span>Job Post</span></p>
+                <h1 class="mb-3 bread">Редактировать вакансию</h1>
             </div>
-            <div class="form-group">
-                <label asp-for="Salary" class="control-label"></label>
-                <input asp-for="Salary" class="form-control" />
-                <span asp-validation-for="Salary" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Experience" class="control-label"></label>
-                <input asp-for="Experience" class="form-control" />
-                <span asp-validation-for="Experience" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="WorkStatus" class="control-label"></label>
-                <select asp-for="WorkStatus" class="form-control"></select>
-                <span asp-validation-for="WorkStatus" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsAvaliable" /> @Html.DisplayNameFor(model => model.IsAvaliable)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <section class="ftco-section bg-light">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-12 col-lg-8 mb-5">
+                    <div class="p-5 bg-white">
+                        <h3 class="h5 text-black mb-3">Основная информация</h3>
+
+                        <div class="row form-group">
+                            <div class="col-md-12 mb-3 mb-md-0">
+                                <label class="font-weight-bold">Должность</label>
+                                <input asp-for="Title" class="form-control" />
+                                <span asp-validation-for="Title" class="text-danger"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="row form-group">
+                            <div class="col-md-12 mb-3 mb-md-0">
+                                <label class="font-weight-bold">Компания</label>
+                                <input asp-for="CompanyName" class="form-control" />
+                                <span asp-validation-for="CompanyName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-12 mb-3 mb-md-0">
+                                <label class="font-weight-bold">Заработная плата</label>
+                                <input asp-for="Salary" class="form-control" />
+                                <span asp-validation-for="Salary" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-12 mb-3 mb-md-0">
+                                <label class="font-weight-bold">Требуемый опыт</label>
+                                <select asp-for="Experience" class="form-control">
+                                    @foreach (var value in Enum.GetValues(typeof(WorkExperience)))
+                                    {
+                                        if (Model.Experience == (WorkExperience)value)
+                                        {
+                                            <option selected value="@value">@(((WorkExperience)value).GetDisplayName())</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@value">@(((EducationLevel)value).GetDisplayName())</option>
+                                        }
+                                    }
+                                </select>
+                                <span asp-validation-for="Experience" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label class="font-weight-bold" for="fullname">Вид занятости</label>
+                                <select asp-for="WorkStatus" class="form-control">
+                                    @foreach (var value in Enum.GetValues(typeof(WorkStatus)))
+                                    {
+                                        if (Model.WorkStatus == (WorkStatus)value)
+                                        {
+                                            <option selected value="@value">@(((WorkStatus)value).GetDisplayName())</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@value">@(((WorkStatus)value).GetDisplayName())</option>
+                                        }
+                                    }
+                                </select>
+                                <span asp-validation-for="WorkStatus" class="text-danger"></span>
+                            </div>
+                        </div>                    
+
+                        <div class="row form-group">
+                            <div class="col-md-12 mb-3 mb-md-0">
+                                <label class="font-weight-bold">Описание должности</label>
+                                <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-12 mb-3 mb-md-0">
+                                <input type="submit" value="Сохранить" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-4">
+                    <div class="p-4 mb-3 bg-white">
+                        <h3 class="h5 text-black mb-3">Контактная информация</h3>
+                        <p class="mb-0 font-weight-bold">Область</p>
+                        <p class="mb-4">
+                            <select asp-for="Location" class="form-control">
+                                @foreach (var value in Enum.GetValues(typeof(Location)))
+                                {
+                                    if (Model.Location == (Location)value)
+                                    {
+                                        <option selected value="@value">@(((Location)value).GetDisplayName())</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@value">@(((Location)value).GetDisplayName())</option>
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="Location" class="text-danger"></span>
+                        </p>
+                        
+                        <p class="mb-0 font-weight-bold">Адрес</p>
+                        <p class="mb-4">
+                            <input asp-for="Address" class="form-control" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </p>
+
+                        <p class="mb-0 font-weight-bold">Телефон</p>
+                        <p class="mb-4">
+                            <input asp-for="Phone" class="form-control" />
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </p>
+                        <p class="mb-0 font-weight-bold">Электронный адрес</p>
+                        <p class="mb-0">
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </p>
+
+                    </div>
+
+                    <div class="p-4 mb-3 bg-white">
+                        <h3 class="h5 text-black mb-3">Дополнительно</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa ad iure porro mollitia architecto hic consequuntur. Distinctio nisi perferendis dolore, ipsa consectetur</p>
+                        <p><a href="#" class="btn btn-primary  py-2 px-4">Ещё</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</form>
+<section class="ftco-section-parallax">
+    <div class="parallax-img d-flex align-items-center">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
+                    <h2>Subcribe to our Newsletter</h2>
+                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in</p>
+                    <div class="row d-flex justify-content-center mt-4 mb-4">
+                        <div class="col-md-12">
+                            <form action="#" class="subscribe-form">
+                                <div class="form-group d-flex">
+                                    <input type="text" class="form-control" placeholder="Enter email address">
+                                    <input type="submit" value="Subscribe" class="submit px-3">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

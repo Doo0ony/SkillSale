@@ -1,11 +1,21 @@
-﻿@using SkillSale.Extensions
+﻿@using SkillSale.Areas.Identity.Data
+@using SkillSale.Extensions
 @model SkillSale.Models.Vacancy
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Подробности";
 }
 
-<div class="hero-wrap hero-wrap-2" style="background-image: url('images/bg_1.jpg');" data-stellar-background-ratio="0.5">
+
+<head>
+    <script src="~/js/jquery.min.js"></script>
+
+    <script src="~/js/ajax/favoritebutton.js"></script>
+    <script src="~/js/ajax/CandidateVacancy.js"></script>
+
+</head>
+
+<div class="hero-wrap hero-wrap-2" style="background-image: url('../../wwwroot/images/bg_1.jpg');" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
     <div class="container">
         <div class="row no-gutters slider-text align-items-end justify-content-start">
@@ -38,6 +48,20 @@
                             <h5 type="text" class="" >@Html.DisplayFor(itemModel => itemModel.CompanyName)</h5>
                         </div>
                     </div>
+                    
+                    <div class="row form-group mb-2">
+                        <div class="col-md-12 mb-3 mb-md-0">
+                            <label class="font-weight-bold" for="fullname">Заработная плата</label>
+                            <h5 type="text" class="" >От @Html.DisplayFor(itemModel => itemModel.Salary)</h5>
+                        </div>
+                    </div>
+                    
+                    <div class="row form-group mb-2">
+                        <div class="col-md-12 mb-3 mb-md-0">
+                            <label class="font-weight-bold" for="fullname">Требуемый опыт</label>
+                            <h5>@EnumExtensions.GetDisplayName(Model.Experience)</h5>
+                        </div>
+                    </div>
 
 
                     <div class="row form-group">
@@ -45,7 +69,7 @@
                             <label class="font-weight-bold" for="fullname">Вид занятости</label>                         
                         </div>
                         <div class="col-md-12 mb-3 mb-md-0">
-                            <h5>@Html.DisplayFor(itemModel => itemModel.WorkStatus)</h5>
+                            <h5>@EnumExtensions.GetDisplayName(Model.WorkStatus)</h5>
                         </div>
                     </div>
 
@@ -60,14 +84,48 @@
 
                     <div class="row form-group">
                         <div class="col-md-12 mb-3 mb-md-0">
-                            <div class="btn btn-warning">❤ В избранное </div>                       
-                            <div class="btn btn-primary">Подать заявку</div>                       
+                            <button id="favoriteButton" data-value="@Html.DisplayFor(itemModel => itemModel.Id)" class="btn btn-warning">
+                              <i class="bi bi-heart"></i> В избранное
+                            </button>
+                            <button id="CandidateVacancy" data-value="@Model.Id" class="btn btn-primary p-2 px-3">Подать заявку</button>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-lg-4">
+                @if (ViewBag.CandidatesList != null)
+                {
+
+                    <div class="p-5 bg-white">
+                        <hr>
+                        <h3>Откликнулись на вакансию</h3>
+                        @{
+                            var candidates = ViewBag.CandidatesList as List<SkillSaleUser>;
+                        }
+                        @foreach (var item in candidates)
+                        {
+                            <div class="job-post-item p-4 d-block d-lg-flex align-items-start">
+                            <div class="one-third mb-4 mb-md-0">
+                            <div class="d-flex flex-row">
+                                <div class="job-post-item-header align-items-center col-md-3 d-flex flex-column" style="justify-content:space-evenly">
+                                    <img src="~/images/person_1.jpg" style="width:100%; border-radius:100%" />
+                                    <div>@SkillSale.Helpers.DateHelper.CalculateAge(item.Age) лет</div>
+                                </div>
+                                <div class="job-post-item-header align-items-center col-md-9">
+                                    <h2 class="mr-3 text-black">@item.FirstName @item.LastName</h2>
+                                            <div><i class="bi"></i>@item.Email</div>
+                                </div>
+                                <div>
+                                    <a asp-controller="Profile" asp-action="Portrait" asp-route-id="@item.Id" class="btn btn-info"><i class="bi bi-info-circle-fill"></i>Подробнее</a>
+                                </div>
+                                
+                            </div>
+                            </div>
+                            </div>
+                        }
+                    </div>
+                }
+                </div>
+                <div class="col-lg-4">
                 <div class="p-4 mb-3 bg-white">
                     <h3 class="h5 text-black mb-3">Контактная информация</h3>
                     <p class="mb-0 font-weight-bold">Область</p>

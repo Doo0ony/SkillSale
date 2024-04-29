@@ -3,7 +3,7 @@
 @model IEnumerable<SkillSale.Models.Resume>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Резюме";
 }
 
 <div class="hero-wrap hero-wrap-2" style="background-image: url('../images/bg_1.jpg');" data-stellar-background-ratio="0.5">
@@ -11,7 +11,7 @@
 	<div class="container">
 		<div class="row no-gutters slider-text align-items-end justify-content-start">
 			<div class="col-md-12 ftco-animate text-center mb-5">
-				<p class="breadcrumbs mb-0"><span class="mr-3"><a href="index.html">Главная <i class="ion-ios-arrow-forward"></i></a></span> <span>Job Post</span></p>
+				<p class="breadcrumbs mb-0"><span class="mr-3">Главная <i class="ion-ios-arrow-forward"></i></span> <span>Job Post</span></p>
 				<h1 class="mb-3 bread">Список резюме</h1>
 			</div>
 		</div>
@@ -91,7 +91,7 @@
 											<div class="form-group">
 												<div class="form-field">
 													<div class="icon"><span class="icon-briefcase"></span></div>
-													<input type="text" class="form-control" placeholder="eg. Garphic. Web Developer">
+													<input type="text" class="form-control" placeholder="Графический дизайнер">
 												</div>
 											</div>
 										</div>
@@ -156,7 +156,7 @@
 									<div class="d-flex flex-row">
 										<div class="job-post-item-header align-items-center col-md-3 d-flex flex-column" style="justify-content:space-evenly">
 											<img src="../images/person_2.jpg" style="width:100%; border-radius:100%"/>
-                                            <div>@Html.DisplayFor(modelItem => item.Author.Age) лет</div>
+											<div>@SkillSale.Helpers.DateHelper.CalculateAge(item.Author.Age) лет</div>
 										</div>
 										<div class="job-post-item-header align-items-center col-md-9">
 											<h2 class="mr-3 text-black"><a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Author.FirstName) @Html.DisplayFor(modelItem => item.Author.LastName)</a></h2>
@@ -183,7 +183,7 @@
 										<div class="mr-3"><span class="icon-layers"></span>От @Html.DisplayFor(modelItem => item.Salary) сом </div>		
 									</div>
 									<div class="job-post-item-body d-block d-md-flex">
-										<div class="mr-3"><span class="icon-layers"></span>@Html.DisplayFor(modelItem => item.EducationLevel) </div>
+										<div class="mr-3"><span class="icon-layer"></span>@Html.DisplayFor(modelItem => item.EducationLevel) </div>
 										<div><span class="icon-my_location"></span> <span>@Html.DisplayFor(modelItem => item.Location)</span></div>
 									</div>
 								</div>

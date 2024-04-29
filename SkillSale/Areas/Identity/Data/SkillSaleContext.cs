@@ -12,6 +12,7 @@ public class SkillSaleContext : IdentityDbContext<SkillSaleUser>
     public SkillSaleContext(DbContextOptions<SkillSaleContext> options)
         : base(options)
     {
+        
     }
 
     public DbSet<SkillSaleUser> SkillSaleUsers { get; set; }
@@ -20,6 +21,7 @@ public class SkillSaleContext : IdentityDbContext<SkillSaleUser>
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<Vacancy>()

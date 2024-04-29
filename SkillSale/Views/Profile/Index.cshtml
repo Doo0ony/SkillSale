@@ -1,0 +1,136 @@
+﻿
+@model List<SkillSale.Areas.Identity.Data.SkillSaleUser>
+@using SkillSale.Extensions
+
+@{
+    ViewData["Title"] = "Карьера";
+}
+
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SkillSale.styles.css" asp-append-version="true" />
+    <link href="~/css/profileStyles.css" rel="stylesheet"></link>
+
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/ajax/favoritebutton.js"></script>
+</head>
+
+<div class="container-fluid">
+    <div class="row ass">
+        <div class="col-md-3 menu-container">
+            <ul class="nav nav-tabs flex-column menuStyle" id="myTab" role="tablist">
+                <li class="nav-item mb-1">
+                    <a class="" asp-controller="Home" asp-action="Index">
+                        <button class="btn btn-sm btn-outline-dark btn-block "> <i class="bi bi-arrow-left-circle-fill iconStyle"><span class="ml-1">Главная</span></i></button>
+                    </a>
+                </li>
+                <li class="nav-item mb-1" >
+                    <a class="active" id="create-tab" data-toggle="tab" href="#create" role="tab" aria-controls="create" aria-selected="true">
+                        <button class="btn btn-sm btn-outline-dark btn-block"><i class="bi bi-file-earmark-plus-fill iconStyle"><span class="ml-1">Резюме</span> </i></button>
+                    </a>
+                </li>
+                <li class="nav-item mb-1 ">
+                    <a class="" id="edit-tab" data-toggle="tab" href="#edit" role="tab" aria-controls="edit" aria-selected="false">
+                        <button class="btn btn-sm btn-outline-dark btn-block"><i class="bi bi-briefcase-fill iconStyle"><span class="ml-1">Вакансия</span></i></button>                  
+                    </a>
+                </li>
+                <li class="nav-item mb-3 ">
+                    <a class="" asp-action="FavoriteVacancies">
+                        <button class="btn btn-sm btn-outline-dark btn-block"><i class="bi bi-heart-fill iconStyle"><span class="ml-1">Понравившиеся</span></i></button>
+                    </a>
+                </li>
+                <li class="nav-item mb-1 ">
+                    <a class="" asp-area="Identity" asp-page="/Account/Manage/Index">
+                        <button class="btn btn-sm btn-outline-dark btn-block"><i class="bi bi-gear-fill iconStyle"><span class="ml-1">Настройки</span></i></button>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="create" role="tabpanel" aria-labelledby="create-tab">
+                        <div>
+                            <h2>Ваши резюме</h2>
+                            <p>Здесь вы можете: создавать, удалять и редактировать информацию в ваших резюме</p>
+                            <a asp-controller="Resumes" asp-action="Create" class="btn btn-primary btn-sm flex-row align-items-center">
+                                <i class="bi bi-tools"> </i>Создать резюме</a>
+
+                            <div>
+                                @{
+                                    foreach (var item in Model.First().Resumes)
+                                    {
+                                        <a asp-controller="Resumes" asp-action="Details" asp-route-id="@item.Id" style="text-decoration:none; color:black">
+                                            <div class="nested-block shadow mb-4 bg-body-tertiary rounded">
+                                                <h2 class="text-black">@item.DesiredPosition</h2>
+                                                @{
+                                                    var text = item.AboutMe;
+                                                    if (item.AboutMe.Length > 60)
+                                                    {
+                                                        text = text.Remove(60);
+                                                        text += " ...";
+                                                    }
+                                                }
+                                                <p>@text</p>
+                                                <div>
+                                                <a asp-controller="Resumes" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info text-white btn-sm flex-row align-items-center">
+                                                    <i class="icon icon-info-circle" > </i>Подробнее</a>
+                                                <a asp-controller="Resumes" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm flex-row align-items-center">
+                                                    <i class="icon icon-edit"> </i>Редактировать</a>
+                                                <a asp-controller="Resumes" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm flex-row align-items-center">
+                                                    <i class="icon icon-trash"> </i>Удалить</a>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    }
+                                }
+                            </div>
+                        </div>
+                </div>
+                <div class="tab-pane fade" id="edit" role="tabpanel" aria-labelledby="edit-tab">
+                        <div>
+                            <h2>Ваши вакансии</h2>
+                            <p>Здесь вы можете: создавать, удалять и редактировать информацию в ваших вакансиях</p>
+
+                            <a asp-controller="Vacancies" asp-action="Create" class="btn btn-primary btn-sm flex-row align-items-center">
+                                <i class="bi bi-tools"> </i>Создать вакансию</a>
+
+                            <div>
+                                @{
+                                    foreach (var item in Model.First().Vacancies)
+                                    {
+                                        <div class="nested-block shadow mb-4 bg-body-tertiary rounded">
+                                            <h2>@item.Title</h2>
+                                            @{
+                                                var text = item.Description;
+                                                if (item.Description.Length > 60)
+                                                {
+                                                    text = text.Remove(60);
+                                                    text += " ...";
+                                                }
+                                            }
+                                            <p>@text</p>
+                                            <div class="d-flex d-inline-flex mb-2">
+                                                Откликнулось: @item.CandidatesList.Count() человек
+                                            </div>
+                                            <div>
+                                            <a asp-controller="Vacancies" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info text-white btn-sm flex-row align-items-center">
+                                            <i class="icon icon-info-circle"> </i>Подробнее</a>
+                                            <a asp-controller="Vacancies" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm flex-row align-items-center">
+                                            <i class="icon icon-edit"> </i>Редактировать</a>
+                                            <a asp-controller="Vacancies" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm flex-row align-items-center">
+                                            <i class="icon icon-trash"> </i>Удалить</a>
+                                            </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div> 
+
+              
+            </div>
+        </div>
+    </div>
+</div>
+
