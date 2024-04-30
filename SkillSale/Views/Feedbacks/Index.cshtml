@@ -1,0 +1,73 @@
+﻿@model SkillSale.Models.Feedback
+
+@{
+    ViewData["Title"] = "Связаться с нами";
+}
+
+
+<div class="hero-wrap hero-wrap-2" style="background-image: url('../../wwwroot/images/bg_1.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-start">
+            <div class="col-md-12 ftco-animate text-center mb-5">
+                <p class="breadcrumbs mb-0"><span class="mr-3"></span> <span>Contact</span></p>
+                <h1 class="mb-3 bread">Связаться с нами</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="ftco-section contact-section bg-light">
+    <div class="container">
+        <div class="row d-flex mb-5 contact-info">
+            <div class="col-md-12 mb-4">
+                <h2 class="h3">Контактная информация</h2>
+            </div>
+            <div class="w-100"></div>
+            <div class="col-md-3">
+                <p><span>Адрес:</span> г. Бишкек, проспект Чуй 255а</p>
+            </div>
+            <div class="col-md-3">
+                <p><span>Телефон:</span>+996 555 84 53 45</p>
+            </div>
+            <div class="col-md-3">
+                <p><span>Email:</span>danil@mail.ru</p>
+            </div>
+        </div>
+        <div class="row block-9">
+            <div class="col-md-6 order-md-last d-flex">
+                <form asp-action="Index">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label">Ваше имя</label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label">Ваш email</label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Subject" class="control-label">Тема</label>
+                        <input asp-for="Subject" class="form-control" />
+                        <span asp-validation-for="Subject" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Message" class="control-label">Сообщение</label>
+                        <textarea asp-for="Message" class="form-control" rows="4"></textarea>
+                        <span asp-validation-for="Message" class="text-danger" ></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Отправить" class="btn btn-primary" />
+                    </div>
+                </form>
+              
+            </div>
+
+            <div class="col-md-6 d-flex">
+                <img src="~/images/map.png" id="map" class="bg-white" style="object-fit:cover"></img>
+            </div>
+        </div>
+    </div>
+</section>

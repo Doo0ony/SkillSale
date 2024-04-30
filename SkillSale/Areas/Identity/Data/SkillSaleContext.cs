@@ -18,6 +18,7 @@ public class SkillSaleContext : IdentityDbContext<SkillSaleUser>
     public DbSet<SkillSaleUser> SkillSaleUsers { get; set; }
     public DbSet<Vacancy> Vacancies { get; set; }
     public DbSet<Resume> Resumes { get; set; }
+    public DbSet<Feedback> Feedbacks { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
