@@ -27,7 +27,9 @@ namespace SkillSale.Controllers
             //footer off
             ViewBag.Footer = false;
 
-            var result1 = await _context.Vacancies.ToListAsync();
+            var result1 = await _context.Vacancies
+                .Include(v => v.CandidatesList)
+                .ToListAsync();
             var result2 = await _context.Resumes.ToListAsync();
 
             ViewBag.Vacancies = result1;
