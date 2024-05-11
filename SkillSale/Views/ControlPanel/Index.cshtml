@@ -1,0 +1,160 @@
+﻿
+@using SkillSale.Extensions
+@using SkillSale.Enums
+
+@{
+    ViewData["Title"] = "Панель управления";
+}
+
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SkillSale.styles.css" asp-append-version="true" />
+    <link href="~/css/profileStyles.css" rel="stylesheet"></link>
+
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/ajax/favoritebutton.js"></script>
+
+    <script src="~/js/ajax/updateModerationStatusResume.js"></script>
+    <script src="~/js/ajax/updateModerationStatusVacancyes.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<div class="container-fluid" >
+    <div class="row ass" style="background-color:aliceblue">
+        <div class="col-md-3 menu-container">
+            <ul class="nav nav-tabs flex-column menuStyle" id="myTab" role="tablist">
+                <li class="nav-item mb-1">
+                    <a class="" asp-controller="Home" asp-action="Index">
+                        <button class="btn btn-sm btn-outline-dark btn-block "> <i class="bi bi-arrow-left-circle-fill iconStyle"><span class="ml-1">Главная</span></i></button>
+                    </a>
+                </li>
+                <li class="nav-item mb-1">
+                    <a class="active" id="create-tab" data-toggle="tab" href="#create" role="tab" aria-controls="create" aria-selected="true">
+                        <button class="btn btn-sm btn-outline-dark btn-block"><i class="bi bi-file-earmark-plus-fill iconStyle"><span class="ml-1">Резюме</span> </i></button>
+                    </a>
+                </li>
+                <li class="nav-item mb-1 ">
+                    <a class="" id="edit-tab" data-toggle="tab" href="#edit" role="tab" aria-controls="edit" aria-selected="false">
+                        <button class="btn btn-sm btn-outline-dark btn-block"><i class="bi bi-briefcase-fill iconStyle"><span class="ml-1">Вакансия</span></i></button>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="create" role="tabpanel" aria-labelledby="create-tab">
+                    <div>
+                        <h2>Резюме</h2>
+                        <p>Здесь находятся резюме, ожидающие прохождение модерации</p>
+                        <div>
+                            @{
+                                var resumesList = ViewBag.Resumes as List<SkillSale.Models.Resume>;
+                                @foreach (var item in resumesList)
+                                {
+                                    <div class="nested-block shadow mb-4 bg-body-tertiary rounded">
+                                        <h2 class="text-black">@item.DesiredPosition</h2>
+                                        @{
+                                            var text = item.AboutMe;
+                                            if (item.AboutMe.Length > 60)
+                                            {
+                                                text = text.Remove(60);
+                                                text += " ...";
+                                            }
+                                        }
+                                        <p>@text</p>
+
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text" id="basic-addon1">Статус: </span>
+                                            <p class="form-control text-left bg-light align-content-center moderation-status-info">@(((ModerationStatus)item.ModerationStatus).GetDisplayName())</p>
+
+                                            <div class="dropdown d-inline-block form-control align-content-center bg-light">
+                                                <button class="btn btn-outline-success dropdown-toggle btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Изменить статус
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    @foreach (var value in Enum.GetValues(typeof(ModerationStatus)))
+                                                    {
+                                                        <button class="dropdown-item btn btn-sm status-button-resume" data-id="@item.Id" data-value="@value">@(((ModerationStatus)value).GetDisplayName())</button>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <a asp-controller="Resumes" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info text-white btn-sm flex-row align-items-center">
+                                                <i class="icon icon-info-circle"> </i>Подробнее
+                                            </a>
+                                            <a asp-controller="Resumes" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm flex-row align-items-center mr-4">
+                                                <i class="icon icon-trash"> </i>Удалить
+                                            </a>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="edit" role="tabpanel" aria-labelledby="edit-tab">
+                    <div>
+                        <h2>Вакансии</h2>
+                        <p>Здесь находятся вакансии, ожидающие прохождение модерации</p>
+
+                        <div>
+                            @{
+                                var vacanciesList = ViewBag.Vacancies as List<SkillSale.Models.Vacancy>;
+                                foreach (var item in vacanciesList)
+                                {
+                                    <div class="nested-block shadow mb-4 bg-body-tertiary rounded">
+                                        <h2>@item.Title</h2>
+                                        @{
+                                            var text = item.Description;
+                                            if (item.Description.Length > 60)
+                                            {
+                                                text = text.Remove(60);
+                                                text += " ...";
+                                            }
+                                        }
+                                        <p>@text</p>
+
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text" id="basic-addon1">Статус: </span>
+                                            <p class="form-control text-left bg-light align-content-center moderation-status-info">@(((ModerationStatus)item.ModerationStatus).GetDisplayName())</p>
+
+                                            <div class="dropdown d-inline-block form-control align-content-center bg-light">
+                                                <button class="btn btn-outline-success dropdown-toggle btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Изменить статус
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    @foreach (var value in Enum.GetValues(typeof(ModerationStatus)))
+                                                    {
+                                                        <button class="dropdown-item btn btn-sm status-button-vacancy" data-id="@item.Id" data-value="@value">@(((ModerationStatus)value).GetDisplayName())</button>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="d-flex d-inline-flex mb-2">
+                                            Откликнулось: @item.CandidatesList.Count() человек
+                                        </div>
+                                        <div>
+                                            <a asp-controller="Vacancies" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info text-white btn-sm flex-row align-items-center">
+                                                <i class="icon icon-info-circle"> </i>Подробнее
+                                            </a>
+                                            <a asp-controller="Vacancies" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm flex-row align-items-center">
+                                                <i class="icon icon-trash"> </i>Удалить
+                                            </a>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+

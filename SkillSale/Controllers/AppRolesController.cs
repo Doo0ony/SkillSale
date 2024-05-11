@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace SkillSale.Controllers
 {
+    [Authorize(Roles =("Admin"))]
     public class AppRolesController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;

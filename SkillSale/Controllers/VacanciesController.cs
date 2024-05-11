@@ -24,7 +24,10 @@ namespace SkillSale.Controllers
         // GET: Vacancies
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Vacancies.Include(x => x.Author).ToListAsync());
+            return View(await _context.Vacancies
+                .Where(d => d.ModerationStatus == Enums.ModerationStatus.Approved)
+                .Include(x => x.Author)
+                .ToListAsync());
         }
 
         // GET: Vacancies/Details/5
@@ -91,6 +94,12 @@ namespace SkillSale.Controllers
             }
 
             var vacancy = await _context.Vacancies.FindAsync(id);
+
+            var currentUser = _userManager.GetUserAsync(User).Result;
+
+            if (vacancy.Author != currentUser)
+                return NotFound();
+
             if (vacancy == null)
             {
                 return NotFound();
@@ -111,9 +120,14 @@ namespace SkillSale.Controllers
                 return NotFound();
             }
 
+            var currentUser = _userManager.GetUserAsync(User).Result;
+
+            if (vacancy.Author != currentUser)
+                return NotFound();
+
             vacancy.Author = await (_userManager.GetUserAsync(User));
             vacancy.AuthorId = vacancy.Author.Id;
-
+            
 
             if (ModelState.IsValid)
             {
@@ -141,11 +155,13 @@ namespace SkillSale.Controllers
         // GET: Vacancies/Delete/5
         [Authorize]
         public async Task<IActionResult> Delete(Guid? id)
-        {
+        {          
             if (id == null)
             {
                 return NotFound();
             }
+
+            var currentUser = _userManager.GetUserAsync(User).Result;
 
             var vacancy = await _context.Vacancies
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -153,6 +169,11 @@ namespace SkillSale.Controllers
             {
                 return NotFound();
             }
+
+            var role = _userManager.GetRolesAsync(currentUser).Result.FirstOrDefault();
+
+            if ((vacancy.Author != currentUser) && (role != "Admin"))
+                return NotFound();
 
             return View(vacancy);
         }
@@ -165,6 +186,12 @@ namespace SkillSale.Controllers
         {
             // Находим вакансию по идентификатору
             var vacancy = await _context.Vacancies.Include(x => x.CandidatesList).FirstOrDefaultAsync(x => x.Id == id);
+            var currentUser = _userManager.GetUserAsync(User).Result;
+
+            var role = _userManager.GetRolesAsync(currentUser).Result.FirstOrDefault();
+
+            if ((vacancy.Author != currentUser) && (role != "Admin"))
+                return NotFound();
 
             if (vacancy == null)
             {
@@ -173,13 +200,10 @@ namespace SkillSale.Controllers
 
             vacancy.CandidatesList.Clear();
 
-            // Удаляем саму вакансию
             _context.Vacancies.Remove(vacancy);
 
-            // Сохраняем изменения в базе данных
             await _context.SaveChangesAsync();
 
-            // Перенаправляем пользователя на нужную страницу
             return RedirectToAction(nameof(Index), "Profile");
         }
 
@@ -189,6 +213,7 @@ namespace SkillSale.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task AddToFavoriteList(string value)
         {
             Guid vacancyId = Guid.Parse(value);
@@ -235,6 +260,7 @@ namespace SkillSale.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task AddOrRemoveCandidateFromVacancy(string value)
         {
             Guid vacancyId = Guid.Parse(value);

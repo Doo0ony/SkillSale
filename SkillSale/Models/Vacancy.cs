@@ -49,6 +49,9 @@ namespace SkillSale.Models
         public string? Phone { get; set; }
         public bool IsAvaliable { get; set; } = true;
 
+        // Модерация (видимость вакансии на сайте)
+        public ModerationStatus ModerationStatus { get; set; } = ModerationStatus.UnderReview;
+
         // Внешний ключ на автора вакансии
         public string? AuthorId { get; set; }
         public SkillSaleUser? Author { get; set; }

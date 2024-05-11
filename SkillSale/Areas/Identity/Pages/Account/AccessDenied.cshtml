@@ -4,7 +4,30 @@
     ViewData["Title"] = "Доступ запрещен";
 }
 
-<header>
-    <h1 class="text-danger">@ViewData["Title"]</h1>
-    <p class="text-danger">У вас нет доступа к этому ресурсу.</p>
-</header>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подтверждение удаления</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/deleteStyles.css" rel="stylesheet"></link>
+</head>
+<body>
+    <div class="container d-flex justify-content-center align-items-center h-100">
+        <div class="confirmation-form">
+            <div>
+                <div class="form-group">
+                    <h1 class="text-danger">@ViewData["Title"]</h1>
+                    <p class="text-danger">У вас нет доступа к этому ресурсу.</p>
+                    <a class="" asp-controller="Home" asp-action="Index" style="text-decoration:none;">
+                        <button class="btn btn-outline-dark btn-block "> <i class="bi bi-arrow-left-circle-fill iconStyle"><span class="ml-1">Главная</span></i></button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<div>
+</div>

@@ -1,6 +1,14 @@
 ﻿
 @model List<SkillSale.Areas.Identity.Data.SkillSaleUser>
+@using SkillSale.Areas.Identity.Data
+@using SkillSale.Enums
 @using SkillSale.Extensions
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<SkillSaleUser> SignInManager
+@inject UserManager<SkillSaleUser> UserManager
+@inject SkillSale.Data.SkillSaleContext _context
+
 
 @{
     ViewData["Title"] = "Карьера";
@@ -40,6 +48,21 @@
                         <button class="btn btn-sm btn-outline-dark btn-block"><i class="bi bi-heart-fill iconStyle"><span class="ml-1">Понравившиеся</span></i></button>
                     </a>
                 </li>
+
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    var user = UserManager.GetUserId(User);
+                    var role = UserManager.GetRolesAsync(UserManager.GetUserAsync(User).Result).GetAwaiter().GetResult().FirstOrDefault();
+
+                    @if (role == "Admin")
+                    {
+                         <li class="nav-item mb-1 ">
+                            <a class="" asp-controller="ControlPanel" asp-area="Index">
+                                <button class="btn btn-sm btn-outline-dark btn-block"><i class="bi bi-menu-button-wide-fill iconStyle"><span class="ml-1">Панель управления</span></i></button>
+                            </a>
+                        </li>
+                    }
+                }
                 <li class="nav-item mb-1 ">
                     <a class="" asp-area="Identity" asp-page="/Account/Manage/Index">
                         <button class="btn btn-sm btn-outline-dark btn-block"><i class="bi bi-gear-fill iconStyle"><span class="ml-1">Настройки</span></i></button>
@@ -72,11 +95,13 @@
                                                     }
                                                 }
                                                 <p>@text</p>
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text" id="basic-addon1">Статус: </span>
+                                                    <p class="form-control text-left bg-light align-content-center"> @(((ModerationStatus)item.ModerationStatus).GetDisplayName())</p>
+                                                 </div>
                                                 <div>
                                                 <a asp-controller="Resumes" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info text-white btn-sm flex-row align-items-center">
                                                     <i class="icon icon-info-circle" > </i>Подробнее</a>
-                                                <a asp-controller="Resumes" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm flex-row align-items-center">
-                                                    <i class="icon icon-edit"> </i>Редактировать</a>
                                                 <a asp-controller="Resumes" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm flex-row align-items-center">
                                                     <i class="icon icon-trash"> </i>Удалить</a>
                                                 </div>
@@ -110,6 +135,12 @@
                                                 }
                                             }
                                             <p>@text</p>
+
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon1">Статус: </span>
+                                                <p class="form-control text-left bg-light align-content-center"> @(((ModerationStatus)item.ModerationStatus).GetDisplayName())</p>
+                                            </div>
+                                            
                                             <div class="d-flex d-inline-flex mb-2">
                                                 Откликнулось: @item.CandidatesList.Count() человек
                                             </div>

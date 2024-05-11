@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using SkillSale.Areas.Identity.Data;
 using SkillSale.Data;
 using SkillSale.Models;
+using System.Security.Claims;
 
 namespace SkillSale.Controllers
 {
@@ -12,7 +13,7 @@ namespace SkillSale.Controllers
     {
         private readonly SkillSaleContext _context;
         private readonly UserManager<SkillSaleUser> _userManager;
-
+   
         public ResumesController(SkillSaleContext context, UserManager<SkillSaleUser> userManager)
         {
             _userManager = userManager;
@@ -22,14 +23,14 @@ namespace SkillSale.Controllers
         // GET: Resumes
         public async Task<IActionResult> Index()
         {
-           
-            return View( await _context.Resumes
+            return View(await _context.Resumes
+                .Where(d => d.ModerationStatus == Enums.ModerationStatus.Approved)
                 .Include(x => x.Author)
                 .ToListAsync());
         }
 
-		// GET: Resumes/Details/5
-	
+        // GET: Resumes/Details/5
+
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -66,9 +67,10 @@ namespace SkillSale.Controllers
             if (ModelState.IsValid)
             {
                 resume.Id = Guid.NewGuid();
+
                 resume.Author = await (_userManager.GetUserAsync(User));
                 resume.AuthorId = resume.Author.Id;
-
+                
                 _context.Add(resume);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -86,10 +88,17 @@ namespace SkillSale.Controllers
             }
 
             var resume = await _context.Resumes.FindAsync(id);
+
             if (resume == null)
             {
                 return NotFound();
             }
+
+            var currentUser = _userManager.GetUserAsync(User).Result;
+
+            if (resume.Author != currentUser)
+                return NotFound();
+
             return View(resume);
         }
 
@@ -106,8 +115,14 @@ namespace SkillSale.Controllers
                 return NotFound();
             }
 
+            var currentUser = _userManager.GetUserAsync(User).Result;
+
+            if (resume.Author != currentUser)
+                return NotFound();
+
             resume.Author = await (_userManager.GetUserAsync(User));
             resume.AuthorId = resume.Author.Id;
+            
 
             if (ModelState.IsValid)
             {
@@ -141,12 +156,20 @@ namespace SkillSale.Controllers
                 return NotFound();
             }
 
+            var currentUser = _userManager.GetUserAsync(User).Result;
+
             var resume = await _context.Resumes
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (resume == null)
             {
                 return NotFound();
             }
+
+            var role = _userManager.GetRolesAsync(currentUser).Result.FirstOrDefault();
+
+            if ((resume.Author != currentUser) && (role != "Admin"))
+                return NotFound();
 
             return View(resume);
         }
@@ -158,6 +181,13 @@ namespace SkillSale.Controllers
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var resume = await _context.Resumes.FindAsync(id);
+
+            var currentUser = _userManager.GetUserAsync(User).Result;
+            var role = _userManager.GetRolesAsync(currentUser).Result.FirstOrDefault();
+
+            if ((resume.Author != currentUser) && (role != "Admin"))
+                return NotFound();
+
             if (resume != null)
             {
                 _context.Resumes.Remove(resume);
@@ -173,6 +203,7 @@ namespace SkillSale.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task AddToFavoriteList(string value)
         {
             Guid resumeId = Guid.Parse(value);

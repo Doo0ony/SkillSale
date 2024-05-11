@@ -55,6 +55,7 @@ namespace SkillSale.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> FavoriteVacancies() {
 
             //footer off
@@ -79,6 +80,7 @@ namespace SkillSale.Controllers
         }
         
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> FavoriteResumes() {
 
             //footer off

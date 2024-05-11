@@ -31,7 +31,11 @@ namespace SkillSale.Models
         [Required]
         [Length(100, 1000, ErrorMessage = "Не менее 100 символов!")]
         public string AboutMe { get; set; } = String.Empty;
-        
+
+        public bool IsAvaliable { get; set; } = true;
+
+        // Модерация (видимость вакансии на сайте)
+        public ModerationStatus ModerationStatus { get; set; } = ModerationStatus.UnderReview;
 
         // Внешний ключ на автора резюме
         public string? AuthorId { get; set; }
