@@ -2,38 +2,91 @@
 @model List<UserWithRole>
 
 @{
-    ViewData["Title"] = "Настройки ролей";
+    ViewData["Title"] = "Настройки роли пользователей";
 }
 
-<h1>Настройки роли пользователя</h1>
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SkillSale.styles.css" asp-append-version="true" />
+    <link href="~/css/profileStyles.css" rel="stylesheet"></link>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/js/ajax/changeRole.js"></script>
+</head>
 
+<div class="container-fluid">
+    <div class="row ass">
+        <div class="col-md-3 menu-container">
+            <ul class="nav nav-tabs flex-column menuStyle" id="myTab" role="tablist">
+                <li class="nav-item mb-1">
+                    <a class="" asp-controller="Home" asp-action="Index">
+                        <button class="btn btn-sm btn-outline-dark btn-block "> <i class="bi bi-arrow-left-circle-fill iconStyle"><span class="ml-1">Главная</span></i></button>
+                    </a>
+                </li>
+                <li class="nav-item mb-1">
+                    <a class="active" asp-controller="AppRoles" asp-action="Index">
+                        <button class="btn btn-sm btn-outline-dark btn-block"><i class="bi bi-file-earmark-plus-fill iconStyle"><span class="ml-1">Роли</span> </i></button>
+                    </a>
+                </li>
+                <li class="nav-item mb-1 ">
+                    <a class="" asp-action="Create" asp-controller="AppRoles">
+                        <button class="btn btn-sm btn-outline-dark btn-block"><i class="bi bi-briefcase-fill iconStyle"><span class="ml-1">Добавить роль</span></i></button>
+                    </a>
+                </li>
+                <li class="nav-item mb-1 ">
+                    <a class="">
+                        <button class="btn btn-sm btn-outline-dark btn-block"><i class="bi bi-person-vcard-fill iconStyle"><span class="ml-1">Роли польз-й</span></i></button>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            <div class="tab-content" id="myTabContent">
+                <h2 class="mb-2">Настройки ролей пользователей</h2>
+                
+                @foreach (var user in Model)
+                {
+                    <div class="col-md-12 nested-block shadow mb-4 bg-body-tertiary rounded">
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Имя</th>
-            <th>Фамилия</th>
-            <th>Email</th>
-            <th>Роль</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
-            <tr>
-                <td>@user.UserName</td>
-                <td>@user.UserLastName</td>
-                <td>
-                    <details>
-                        <summary>Показать</summary>
-                        @user.Email
-                    </details>
-                    </td>
-                <td>@user.RoleName</td>
-                <td>
-                    <a class="btn btn-primary btn-sm" asp-action="Edit" asp-controller="UsersRole" asp-route-userId="@user.UserId">Изменить</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                        <div class=" p-4 d-block d-lg-flex align-items-start">
+                            <div class=" mb-4 mb-md-0">
+                                <div class="d-flex flex-row">
+                                    <div class="job-post-item-header align-items-center col-md-3 d-flex flex-column">
+                                        <img src="/@(user.ProfilePicture == String.Empty ? "profilePictures/noimage.jpg" : user.ProfilePicture)" style="width:100%; height:100%; object-fit:cover; border-radius:100%" />
+                                    </div>
+                                    <div class="job-post-item-header align-items-center col-md-9">
+                                        <h2 class="mr-3 text-black"><a asp-action="Portrait" asp-route-id="@user.UserId" asp-controller="Profile" style="text-decoration:none;">@Html.DisplayFor(modelItem => user.UserName) @Html.DisplayFor(modelItem => user.UserLastName)</a></h2>
+
+                                        <div class="d-flex flex-column">
+                                            
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon1">Роль: </span>
+                                                <p class="form-control text-left bg-light d-flex align-items-center moderation-status-info">@user.RoleName</p>
+
+                                                <div class="dropdown d-inline-block form-control align-content-center bg-light">
+                                                    <button class="btn btn-outline-success dropdown-toggle btn-sm align-items-center" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Изменить
+                                                    </button>
+                                                    @{
+                                                        List<string> roles = new List<string> {"Admin", "User" };
+                                                    }
+                                                    <div class="dropdown-menu">
+                                                        @foreach (var value in roles)
+                                                        {
+                                                            <button class="dropdown-item btn btn-sm changeRole-button" data-id="@user.UserId" data-value="@value">@value</button>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                
+            </div>
+        </div>
+    </div>
+</div>

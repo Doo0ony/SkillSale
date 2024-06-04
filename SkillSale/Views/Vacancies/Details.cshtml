@@ -107,7 +107,7 @@
                             <div class="one-third mb-4 mb-md-0">
                             <div class="d-flex flex-row">
                                 <div class="job-post-item-header align-items-center col-md-3 d-flex flex-column" style="justify-content:space-evenly">
-                                    <img src="~/images/person_1.jpg" style="width:100%; border-radius:100%" />
+                                    <img src="/@(item.ProfileImage == String.Empty ? "profilePictures/noimage.jpg" : item.ProfileImage)" style="width:100px; height:100px; object-fit:cover; border-radius:100%" />
                                     <div>@SkillSale.Helpers.DateHelper.CalculateAge(item.Age) лет</div>
                                 </div>
                                 <div class="job-post-item-header align-items-center col-md-9">

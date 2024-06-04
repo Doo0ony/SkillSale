@@ -33,50 +33,31 @@ namespace MarketPlace.Controllers
                                    UserId = user.Id,
                                    UserLastName = user.LastName,
                                    Email = user.Email,
+                                   ProfilePicture = user.ProfileImage,
                                    UserName = user.FirstName,
                                    RoleId = userRole.RoleId,
                                    RoleName = role.Name
                                }).ToListAsync()) ;
         }
 
-        // GET: /User/EditRole/{userId}
-        public IActionResult Edit(string userId)
+        public async Task<IActionResult> SetRole(string id, string role)
         {
-            // Получаем пользователя и его текущую роль из базы данных
-            var userWithRole = (from user in _context.SkillSaleUsers
-                                join userRole in _context.UserRoles on user.Id equals userRole.UserId
-                                join role in _context.Roles on userRole.RoleId equals role.Id
-                                where user.Id == userId
-                                select new UserWithRole
-                                {
-                                    UserId = user.Id,
-                                    UserName = user.FirstName,
-                                    RoleId = userRole.RoleId,
-                                    RoleName = role.Name
-                                }).FirstOrDefault();
+            // Найти роль по названию
+            var roleEntity = await _context.Roles.FirstOrDefaultAsync(r => r.Name == role);
+            if (roleEntity == null)
+            {
+                return RedirectToAction(nameof(Index), new { error = "Роль не найдена." });
+            }
 
-            if (userWithRole == null)
-                return NotFound();
-
-            // Загружаем список ролей для использования в выпадающем списке в представлении
-            var roles = _context.Roles.ToList();
-            ViewBag.Roles = new SelectList(roles, "Id", "Name", userWithRole.RoleId);
-
-            return View(userWithRole);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string userId, string roleId)
-        {
-            // Получаем пользователя по ID
-            var user = await _context.SkillSaleUsers.FindAsync(userId);
-
+            // Получить пользователя по ID
+            var user = await _context.SkillSaleUsers.FindAsync(id);
             if (user == null)
+            {
                 return NotFound();
+            }
 
-            // Получаем текущую роль пользователя
-            var userRoles = await _context.UserRoles.Where(ur => ur.UserId == userId).ToListAsync();
+            // Получить текущие роли пользователя
+            var userRoles = await _context.UserRoles.Where(ur => ur.UserId == id).ToListAsync();
 
             // Удаление всех текущих ролей пользователя
             _context.UserRoles.RemoveRange(userRoles);
@@ -86,8 +67,8 @@ namespace MarketPlace.Controllers
                 // Добавление новой роли для пользователя
                 var newUserRole = new IdentityUserRole<string>
                 {
-                    UserId = userId,
-                    RoleId = roleId
+                    UserId = id,
+                    RoleId = roleEntity.Id
                 };
                 _context.UserRoles.Add(newUserRole);
 
@@ -96,12 +77,12 @@ namespace MarketPlace.Controllers
             }
             catch (Exception)
             {
-                return RedirectToAction(nameof(Index),
-                    new { error = "Ошибка при сохранении изменений." });
+                return RedirectToAction(nameof(Index), new { error = "Ошибка при сохранении изменений." });
             }
 
-            return RedirectToAction(nameof(Index));
+            return Ok();
         }
+
 
     }
 }

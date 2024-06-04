@@ -6,24 +6,60 @@
     ViewData["Title"] = "Роли приложения";
 }
 
-<h1>Добавить роль</h1>
-<p>
-    <a class="btn btn-primary" asp-action="Create">Создать роль</a>
-</p>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Название</th>
-            <th></th>
-        </tr>            
-    </thead>
-    <tbody>
-        @foreach(var item in Model)
-        {
-            <tr> 
-                <td>@Html.DisplayFor(model => item.Name)</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SkillSale.styles.css" asp-append-version="true" />
+    <link href="~/css/profileStyles.css" rel="stylesheet"></link>
+
+</head>
+
+<div class="container-fluid">
+    <div class="row ass">
+        <div class="col-md-3 menu-container">
+            <ul class="nav nav-tabs flex-column menuStyle" id="myTab" role="tablist">
+                <li class="nav-item mb-1">
+                    <a class="" asp-controller="Home" asp-action="Index">
+                        <button class="btn btn-sm btn-outline-dark btn-block "> <i class="bi bi-arrow-left-circle-fill iconStyle"><span class="ml-1">Главная</span></i></button>
+                    </a>
+                </li>
+                <li class="nav-item mb-1">
+                    <a class="active">
+                        <button class="btn btn-sm btn-outline-dark btn-block"><i class="bi bi-file-earmark-plus-fill iconStyle"><span class="ml-1">Роли</span> </i></button>
+                    </a>
+                </li>
+                <li class="nav-item mb-1 ">
+                    <a class="" asp-action="Create">
+                        <button class="btn btn-sm btn-outline-dark btn-block"><i class="bi bi-briefcase-fill iconStyle"><span class="ml-1">Добавить роль</span></i></button>
+                    </a>
+                </li>
+                <li class="nav-item mb-1 ">
+                    <a class="" asp-action="Index" asp-controller="UsersRole">
+                        <button class="btn btn-sm btn-outline-dark btn-block"><i class="bi bi-briefcase-fill iconStyle"><span class="ml-1">Роли польз-й</span></i></button>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            <div class="tab-content" id="myTabContent">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Название</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(model => item.Name)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

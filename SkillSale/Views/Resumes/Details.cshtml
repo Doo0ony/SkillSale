@@ -31,19 +31,17 @@
 
                 <div class="p-5 bg-white">
                     <h3 class="h5 text-black mb-3">Основная информация</h3>
-
-                    
                     <div class="job-post-item p-4 d-block d-lg-flex align-items-start">
-                        <div class="one-third mb-4 mb-md-0">
+                        <div class="mb-4 mb-md-0">
                             <div class="d-flex flex-row">
                                 <div class="job-post-item-header align-items-center col-md-3 d-flex flex-column" style="justify-content:space-evenly">
-                                    <img src="~/images/person_2.jpg" style="width:100%; border-radius:100%" />
+                                    <img src="/@(Model.Author.ProfileImage == String.Empty ? "profilePictures/noimage.jpg" : Model.Author.ProfileImage)" style="width:100%; height:100%; object-fit:cover; border-radius:100%" />
                                     <div>@SkillSale.Helpers.DateHelper.CalculateAge(Model.Author.Age) лет</div>
                                 </div>
                                 <div class="job-post-item-header align-items-center col-md-9">
                                     <h2 class="mr-3 text-black">@Html.DisplayFor(itemModel => itemModel.Author.FirstName) @Html.DisplayFor(itemModel => itemModel.Author.LastName)</h2>                                   
-                                    <p>Гений, миллиардер, филантроп, плейбой</p>
-                                    <div class="btn btn-primary">Написать сообщение</div>
+                                    <p>Здесь могла быть ваша реклама</p>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -128,25 +126,3 @@
     </div>
 </section>
 
-<section class="ftco-section-parallax">
-    <div class="parallax-img d-flex align-items-center">
-        <div class="container">
-            <div class="row d-flex justify-content-center">
-                <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
-                    <h2>Subcribe to our Newsletter</h2>
-                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in</p>
-                    <div class="row d-flex justify-content-center mt-4 mb-4">
-                        <div class="col-md-12">
-                            <form action="#" class="subscribe-form">
-                                <div class="form-group d-flex">
-                                    <input type="text" class="form-control" placeholder="Enter email address">
-                                    <input type="submit" value="Subscribe" class="submit px-3">
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>

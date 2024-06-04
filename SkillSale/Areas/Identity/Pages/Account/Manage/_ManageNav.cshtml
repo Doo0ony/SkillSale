@@ -8,7 +8,7 @@
     <link href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
 </head>
 
-<div class="col-md-2 menu-container mr-4 mb-4">
+<div class="col-md-3 menu-container">
     <ul class="nav nav-tabs flex-column menuStyle text-center" id="myTab" role="tablist">
         <li class="nav-item mb-1">
             <a class="" asp-controller="Profile" asp-area="Profile" asp-action="Index">
@@ -43,6 +43,12 @@
         <li class="nav-item mb-1">
             <a class="@ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">
                 <button class="btn btn-sm btn-outline-dark btn-block "> <i class="bi bi-database-check iconStyle"><span class="ml-1">Данные</span></i></button>
+            </a>
+        </li>
+        
+        <li class="nav-item mb-1">
+            <a class="@ManageNavPages.ProfileImageNavClass(ViewContext)" id="personal-data" asp-page="./ProfileImage">
+                <button class="btn btn-sm btn-outline-dark btn-block "> <i class="bi bi-database-check iconStyle"><span class="ml-1">Фото профиля</span></i></button>
             </a>
         </li>
 

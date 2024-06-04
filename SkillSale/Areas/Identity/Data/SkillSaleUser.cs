@@ -15,6 +15,8 @@ public class SkillSaleUser : IdentityUser
     [Required]
     public DateTime DateCreated { get; set; }
 
+    public string ProfileImage { get; set; }
+
     public List<Resume>? Resumes { get; set; }
     public List<Vacancy>? Vacancies { get; set; }
 

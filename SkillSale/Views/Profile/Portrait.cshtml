@@ -19,11 +19,11 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex flex-column align-items-center text-center">
-                        <img src="~/images/person_1.jpg" alt="Admin" class="rounded-circle" width="150">
+                        <img src="/@(Model.First().ProfileImage == String.Empty ? "profilePictures/noimage.jpg" : Model.First().ProfileImage)" style="width:100px; height:100px; object-fit:cover; border-radius:100%" class="rounded-circle" width="150">
                         <div class="mt-3">
                             <h4>@Model.First().FirstName @Model.First().LastName</h4>
                             <p class="text-muted font-size-sm">@SkillSale.Helpers.DateHelper.CalculateAge(Model.First().Age) лет</p>
-                            <button class="btn btn-outline-primary">Сообщение</button>
+                            
                         </div>
                     </div>
                 </div>
@@ -37,22 +37,30 @@
                       
                         <div>
                             @{
-                                foreach (var item in Model.First().Resumes)
-                                {
-                                    <a asp-controller="Resumes" asp-action="Details" asp-route-id="@item.Id" style="text-decoration:none; color:black">
-                                        <div class="nested-block shadow mb-4 bg-body-tertiary rounded">
-                                            <h2 class="text-black">@item.DesiredPosition</h2>
-                                            @{
-                                                var text = item.AboutMe;
-                                                if (item.AboutMe.Length > 60)
-                                                {
-                                                    text = text.Remove(60);
-                                                    text += " ...";
+                                if (Model.First().Resumes.Count() == 0){
+                                    <div class="nested-block shadow mb-4 bg-body-tertiary rounded">
+                                        <h2 class="text-black">Нет резюме</h2>
+                                        <p>У пользователя пока нет резюме</p>
+                                    </div>
+                                }
+                                else {
+                                    foreach (var item in Model.First().Resumes)
+                                    {
+                                        <a asp-controller="Resumes" asp-action="Details" asp-route-id="@item.Id" style="text-decoration:none; color:black">
+                                            <div class="nested-block shadow mb-4 bg-body-tertiary rounded">
+                                                <h2 class="text-black">@item.DesiredPosition</h2>
+                                                @{
+                                                    var text = item.AboutMe;
+                                                    if (item.AboutMe.Length > 60)
+                                                    {
+                                                        text = text.Remove(60);
+                                                        text += " ...";
+                                                    }
                                                 }
-                                            }
-                                            <p>@text</p>                                          
-                                        </div>
-                                    </a>
+                                                <p>@text</p>                                          
+                                            </div>
+                                        </a>
+                                    }
                                 }
                             }
                         </div>

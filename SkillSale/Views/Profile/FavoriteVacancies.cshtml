@@ -13,6 +13,7 @@
 
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/ajax/favoritebutton.js"></script>
+    <script src="~/js/ajax/CandidateVacancy.js" charset="utf-8"></script>
 </head>
 
 <div class="container-fluid">
@@ -63,8 +64,7 @@
 
                                             <div class="one-forth text-white">
                                                 <a asp-controller="Vacancies" asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info py-2 my-2 text-white"><i class="bi bi-info-circle-fill"></i> Подробнее</a>
-                                                <a class="btn btn-sm btn-primary py-2 my-2"><i class="bi bi-plus-circle"></i> Подать заявку</a>
-
+                                                <button id="CandidateVacancy" data-value="@item.Id" class="btn btn-sm btn-primary p-2 px-3"><i class="bi bi-plus-circle"></i> Подать заявку</button>
                                                 <a id="favoriteButton" data-value="@item.Id"  class="btn btn-sm btn-danger py-2 my-2"><i class="bi bi-trash-fill"></i> Удалить</a>
                                             </div>
                                             

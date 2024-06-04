@@ -93,7 +93,10 @@ namespace SkillSale.Controllers
                 return NotFound();
             }
 
-            var vacancy = await _context.Vacancies.FindAsync(id);
+            var vacancy = await _context.Vacancies
+                .Include(x => x.Author)
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
 
             var currentUser = _userManager.GetUserAsync(User).Result;
 
@@ -121,9 +124,6 @@ namespace SkillSale.Controllers
             }
 
             var currentUser = _userManager.GetUserAsync(User).Result;
-
-            if (vacancy.Author != currentUser)
-                return NotFound();
 
             vacancy.Author = await (_userManager.GetUserAsync(User));
             vacancy.AuthorId = vacancy.Author.Id;

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SkillSale.Areas.Identity.Data;
 using SkillSale.Data;
+using SkillSale.Enums;
 using System.Diagnostics;
 
 namespace SkillSale.Controllers
@@ -48,7 +49,7 @@ namespace SkillSale.Controllers
 
             var result = await _context.SkillSaleUsers
                 .Where(x => x.Id == user.Id)
-                .Include(x => x.Resumes)
+                .Include(x => x.Resumes.Where(r => r.ModerationStatus == ModerationStatus.Approved))
                 .ToListAsync();
 
             return View(result);

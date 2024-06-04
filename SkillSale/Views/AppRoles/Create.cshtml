@@ -1,18 +1,58 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @model IdentityRole
 
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <h2>Create Role</h2>
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-floating">
-                <input asp-for="Name" class="form-control" aria-required="true" />
-                <label asp-for="Name"></label>
-                <span asp-validation-for="Name" class="text-danger"></span>
+@{
+    ViewData["Title"] = "Добавить роль";
+}
+
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SkillSale.styles.css" asp-append-version="true" />
+    <link href="~/css/profileStyles.css" rel="stylesheet"></link>
+
+</head>
+
+<div class="container-fluid">
+    <div class="row ass">
+        <div class="col-md-3 menu-container">
+            <ul class="nav nav-tabs flex-column menuStyle" id="myTab" role="tablist">
+                <li class="nav-item mb-1">
+                    <a class="" asp-controller="Home" asp-action="Index">
+                        <button class="btn btn-sm btn-outline-dark btn-block "> <i class="bi bi-arrow-left-circle-fill iconStyle"><span class="ml-1">Главная</span></i></button>
+                    </a>
+                </li>
+                <li class="nav-item mb-1">
+                    <a class="active" asp-action="Index">
+                        <button class="btn btn-sm btn-outline-dark btn-block"><i class="bi bi-file-earmark-plus-fill iconStyle"><span class="ml-1">Роли</span> </i></button>
+                    </a>
+                </li>
+                <li class="nav-item mb-1 ">
+                    <a class="">
+                        <button class="btn btn-sm btn-outline-dark btn-block"><i class="bi bi-briefcase-fill iconStyle"><span class="ml-1">Добавить роль</span></i></button>
+                    </a>
+                </li>
+                <li class="nav-item mb-1 ">
+                    <a class="" asp-action="Index" asp-controller="UsersRole">
+                        <button class="btn btn-sm btn-outline-dark btn-block"><i class="bi bi-briefcase-fill iconStyle"><span class="ml-1">Роли польз-й</span></i></button>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            <div class="tab-content" id="myTabContent">
+                <form method="post">
+                    <h2>Создать роль</h2>
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-floating mb-2">
+                        <input asp-for="Name" class="form-control" aria-required="true" />
+                        <label asp-for="Name">Название</label>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </form>
             </div>
-            <button type="submit" class="btn btn-primary">Save</button>
-        </form>
+        </div>
     </div>
 </div>
