@@ -1,0 +1,68 @@
+﻿
+@model List<Feedback>
+
+@{
+    ViewData["Title"] = "Обращения";
+}
+
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SkillSale.styles.css" asp-append-version="true" />
+    <link href="~/css/profileStyles.css" rel="stylesheet"></link>
+
+</head>
+
+<div class="container-fluid">
+    <div class="row ass">       
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="create" role="tabpanel" aria-labelledby="create-tab">
+                <div>
+                    <h2>Отзывы</h2>                    
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Отправитель
+                                </th>
+                                <th>
+                                    E-mail
+                                </th>
+                                <th>
+                                    Тема
+                                </th>
+                                <th>
+                                    Сообщение
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Subject)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Message)
+                                    </td>
+                                    <td>
+                                        <a asp-action="Delete" asp-route-id="@item.FeedBackId" class="btn btn-danger">Удалить</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        </table>                      
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

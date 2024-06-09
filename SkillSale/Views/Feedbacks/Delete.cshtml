@@ -1,0 +1,29 @@
+﻿@model SkillSale.Models.Feedback
+
+@{
+    ViewData["Title"] = "Удалить";
+}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подтверждение удаления</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/deleteStyles.css" rel="stylesheet"></link>
+</head>
+<body>
+    <div class="container d-flex justify-content-center align-items-center h-100">
+        <div class="confirmation-form">
+            <h1 class="h3 mb-3 font-weight-normal">Вы уверены, что хотите удалить этот элемент?</h1>
+            <div>
+                <div class="form-group">
+                    <form asp-action="Delete">
+                        <input type="hidden" asp-for="FeedBackId" />
+                        <button type="submit" class="btn btn-danger">Да, удалить</button>
+                        <button class="btn btn-secondary" onclick="history.back(); return false;">Отмена</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

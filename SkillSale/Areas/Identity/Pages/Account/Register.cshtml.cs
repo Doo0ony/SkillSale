@@ -74,6 +74,10 @@ namespace SkillSale.Areas.Identity.Pages.Account
             [Required]
             [Display(Name = "LastName")]
             public string LastName { get; set; }
+            
+            [Required]
+            [Display(Name = "Gender")]
+            public string Gender { get; set; }
 
             [Required]
             [Display(Name = "Age")]
@@ -81,30 +85,17 @@ namespace SkillSale.Areas.Identity.Pages.Account
             [Range(typeof(DateTime), "1960-01-01", "2006-12-31", ErrorMessage = "Вы должны быть старше 16 лет.")]
             public DateTime Age { get; set; }
 
-
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Required]
             [StringLength(100, ErrorMessage = "Поле {0} должно содержать от {2} до {1} символов в длину.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "Пароли не совпадают.")]
@@ -122,17 +113,23 @@ namespace SkillSale.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
                 user.Age = Input.Age;
                 user.DateCreated = DateTime.Now;
+                user.Gender = Input.Gender;
+                
+                if (user.Gender == "Male")
+                    user.ProfileImage = "profilePictures/male.png";
+                else
+                    user.ProfileImage = "profilePictures/female.webp";
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 

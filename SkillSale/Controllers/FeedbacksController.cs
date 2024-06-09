@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +36,39 @@ namespace SkillSale.Controllers
                 await _context.SaveChangesAsync();
             }
             return View(feedback);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> Feedbacks() 
+        {
+            var feedbacks = await _context.Feedbacks.ToListAsync();
+
+            return View(feedbacks);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id) {
+            var feedback = await _context.Feedbacks.FirstOrDefaultAsync(x => x.FeedBackId == id);
+
+            return View(feedback);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id) {
+            var feedback = await _context.Feedbacks.FirstOrDefaultAsync(x => x.FeedBackId == id);
+
+            if (feedback == null)
+                return NotFound();
+
+            _context.Feedbacks.Remove(feedback);
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Feedbacks");
         }
     }
 }

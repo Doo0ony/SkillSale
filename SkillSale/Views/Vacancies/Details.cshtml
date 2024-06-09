@@ -2,6 +2,11 @@
 @using SkillSale.Extensions
 @model SkillSale.Models.Vacancy
 
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<SkillSaleUser> SignInManager
+@inject UserManager<SkillSaleUser> UserManager
+
 @{
     ViewData["Title"] = "Подробности";
 }
@@ -92,37 +97,40 @@
                     </div>
                 </div>
 
-                @if (ViewBag.CandidatesList != null)
-                {
 
-                    <div class="p-5 bg-white">
-                        <hr>
-                        <h3>Откликнулись на вакансию</h3>
-                        @{
-                            var candidates = ViewBag.CandidatesList as List<SkillSaleUser>;
-                        }
-                        @foreach (var item in candidates)
-                        {
-                            <div class="job-post-item p-4 d-block d-lg-flex align-items-start">
-                            <div class="one-third mb-4 mb-md-0">
-                            <div class="d-flex flex-row">
-                                <div class="job-post-item-header align-items-center col-md-3 d-flex flex-column" style="justify-content:space-evenly">
-                                    <img src="/@(item.ProfileImage == String.Empty ? "profilePictures/noimage.jpg" : item.ProfileImage)" style="width:100px; height:100px; object-fit:cover; border-radius:100%" />
-                                    <div>@SkillSale.Helpers.DateHelper.CalculateAge(item.Age) лет</div>
+                @if (SignInManager.IsSignedIn(User) )
+                {
+                    @if (Model.CandidatesList?.Count() != 0)
+                    {
+                        <div class="p-5 bg-white">
+                            <hr>
+                            <h3>Откликнулись на вакансию</h3>
+                            @{
+                                var candidates = ViewBag.CandidatesList as List<SkillSaleUser>;
+                            }
+                            @foreach (var item in candidates)
+                            {
+                                <div class="p-4" style="border:1px silver solid; border-radius:10px">
+                                    <div class="one-third mb-4 mb-md-0">
+                                        <div class="d-flex flex-row ">
+                                            <div class="job-post-item-header align-items-center d-flex flex-column" style="justify-content:space-evenly">
+                                                <img src="/@(item.ProfileImage == String.Empty ? "staticrofilePictures/noimage.jpg" : item.ProfileImage)" style="width:100px; height:100px; object-fit:cover; border-radius:100%" />
+                                                <div>@SkillSale.Helpers.DateHelper.CalculateAge(item.Age) лет</div>
+                                            </div>
+                                            <div class="job-post-item-header align-items-start col-md-9 d-flex flex-column">
+                                                <h2 class="mr-3 text-black">@item.FirstName @item.LastName</h2>
+                                                <div><i class="bi"></i>@item.Email</div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div class="flex-fill"></div>
+                                            <a asp-controller="Profile" asp-action="Portrait" asp-route-id="@item.Id" class="btn btn-info d-flex"><i class="bi bi-info-circle-fill mr-2"></i>Подробнее</a>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="job-post-item-header align-items-center col-md-9">
-                                    <h2 class="mr-3 text-black">@item.FirstName @item.LastName</h2>
-                                            <div><i class="bi"></i>@item.Email</div>
-                                </div>
-                                <div>
-                                    <a asp-controller="Profile" asp-action="Portrait" asp-route-id="@item.Id" class="btn btn-info"><i class="bi bi-info-circle-fill"></i>Подробнее</a>
-                                </div>
-                                
-                            </div>
-                            </div>
-                            </div>
-                        }
-                    </div>
+                            }
+                        </div>
+                    }
                 }
                 </div>
                 <div class="col-lg-4">
@@ -144,31 +152,12 @@
 
                 <div class="p-4 mb-3 bg-white">
                     <h3 class="h5 text-black mb-3">Дополнительно</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa ad iure porro mollitia architecto hic consequuntur. Distinctio nisi perferendis dolore, ipsa consectetur</p>
-                    <p><a href="#" class="btn btn-primary  py-2 px-4">Ещё</a></p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="ftco-section-parallax">
-    <div class="parallax-img d-flex align-items-center">
-        <div class="container">
-            <div class="row d-flex justify-content-center">
-                <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
-                    <h2>Subcribe to our Newsletter</h2>
-                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in</p>
-                    <div class="row d-flex justify-content-center mt-4 mb-4">
-                        <div class="col-md-12">
-                            <form action="#" class="subscribe-form">
-                                <div class="form-group d-flex">
-                                    <input type="text" class="form-control" placeholder="Enter email address">
-                                    <input type="submit" value="Subscribe" class="submit px-3">
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                    <p>
+                        На вакансию откликнул@((Model.CandidatesList.Count() == 1) ?  "ся" : "ось"):
+                        <button class="btn btn-success">@Model.CandidatesList.Count()</button>
+                        человек.
+                        </p>
+                    
                 </div>
             </div>
         </div>

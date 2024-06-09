@@ -35,7 +35,7 @@
                 </li>
                 <li class="nav-item mb-1 ">
                     <a class="">
-                        <button class="btn btn-sm btn-outline-dark btn-block"><i class="bi bi-person-vcard-fill iconStyle"><span class="ml-1">Роли польз-й</span></i></button>
+                        <button class="btn btn-sm btn-outline-dark btn-block"><i class="bi bi-at iconStyle"><span class="ml-1">Роли польз-й</span></i></button>
                     </a>
                 </li>
             </ul>
@@ -47,43 +47,36 @@
                 @foreach (var user in Model)
                 {
                     <div class="col-md-12 nested-block shadow mb-4 bg-body-tertiary rounded">
+                        <div class="d-flex flex-column">
+                            <div class="job-post-item-header align-items-center d-flex flex-row mb-2">
+                                <img src="/@(user.ProfilePicture == String.Empty ? "profilePictures/noimage.jpg" : user.ProfilePicture)" style="width:100px; height:100px; object-fit:cover; border-radius:100%" />
+                                <h2 class="ml-3 text-black"><a asp-action="Portrait" asp-route-id="@user.UserId" asp-controller="Profile" style="text-decoration:none;">@Html.DisplayFor(modelItem => user.UserName) @Html.DisplayFor(modelItem => user.UserLastName)</a></h2>
+                            </div>
 
-                        <div class=" p-4 d-block d-lg-flex align-items-start">
-                            <div class=" mb-4 mb-md-0">
-                                <div class="d-flex flex-row">
-                                    <div class="job-post-item-header align-items-center col-md-3 d-flex flex-column">
-                                        <img src="/@(user.ProfilePicture == String.Empty ? "profilePictures/noimage.jpg" : user.ProfilePicture)" style="width:100%; height:100%; object-fit:cover; border-radius:100%" />
-                                    </div>
-                                    <div class="job-post-item-header align-items-center col-md-9">
-                                        <h2 class="mr-3 text-black"><a asp-action="Portrait" asp-route-id="@user.UserId" asp-controller="Profile" style="text-decoration:none;">@Html.DisplayFor(modelItem => user.UserName) @Html.DisplayFor(modelItem => user.UserLastName)</a></h2>
+                            <div class="job-post-item-header align-items-center">
+                                <div class="input-group mb-3 d-flex">
+                                    <span class="input-group-text d-flex" id="basic-addon1">Роль: </span>
+                                    <p class="form-control text-left bg-light d-flex align-items-center moderation-status-info">@user.RoleName</p>
 
-                                        <div class="d-flex flex-column">
-                                            
-                                            <div class="input-group mb-3">
-                                                <span class="input-group-text" id="basic-addon1">Роль: </span>
-                                                <p class="form-control text-left bg-light d-flex align-items-center moderation-status-info">@user.RoleName</p>
-
-                                                <div class="dropdown d-inline-block form-control align-content-center bg-light">
-                                                    <button class="btn btn-outline-success dropdown-toggle btn-sm align-items-center" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        Изменить
-                                                    </button>
-                                                    @{
-                                                        List<string> roles = new List<string> {"Admin", "User" };
-                                                    }
-                                                    <div class="dropdown-menu">
-                                                        @foreach (var value in roles)
-                                                        {
-                                                            <button class="dropdown-item btn btn-sm changeRole-button" data-id="@user.UserId" data-value="@value">@value</button>
-                                                        }
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    <div class="dropdown d-flex form-control align-content-center bg-light">
+                                        <button class="btn btn-outline-success dropdown-toggle btn-sm align-items-center" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Изменить
+                                        </button>
+                                        @{
+                                            List<string> roles = new List<string> {"Admin", "User" };
+                                        }
+                                        <div class="dropdown-menu">
+                                            @foreach (var value in roles)
+                                            {
+                                                <button class="dropdown-item btn btn-sm changeRole-button" data-id="@user.UserId" data-value="@value">@value</button>
+                                            }
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                        
                 }
                 
             </div>

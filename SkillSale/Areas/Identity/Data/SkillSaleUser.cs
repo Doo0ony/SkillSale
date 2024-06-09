@@ -8,14 +8,20 @@ public class SkillSaleUser : IdentityUser
 {
     [Required]
     public string FirstName { get; set; } = String.Empty;
+
     [Required]
     public string LastName { get; set; } = String.Empty;
+
     [Required]
     public DateTime Age { get; set; }
+
+    [Required]
+    public string Gender { get; set; }
+
     [Required]
     public DateTime DateCreated { get; set; }
 
-    public string ProfileImage { get; set; }
+    public string ProfileImage { get; set; } = String.Empty;
 
     public List<Resume>? Resumes { get; set; }
     public List<Vacancy>? Vacancies { get; set; }

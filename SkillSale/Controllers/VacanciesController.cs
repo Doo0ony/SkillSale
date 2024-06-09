@@ -44,7 +44,7 @@ namespace SkillSale.Controllers
                 .Include(x => x.CandidatesList)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-            if(currentUser.Id == vacancy.AuthorId)
+            if(currentUser != null && currentUser.Id == vacancy.AuthorId)
                 ViewBag.CandidatesList = vacancy.CandidatesList;
 
             if (vacancy == null)
